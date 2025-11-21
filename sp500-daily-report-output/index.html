@@ -1,0 +1,414 @@
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Daily Market Report - 2025-11-20</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 1.5rem; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.3rem; margin-top: 1.5rem; }
+    ul { line-height: 1.7; }
+    .metric-link {
+      cursor: pointer;
+      text-decoration: underline;
+      color: #007bff;
+    }
+    .pill {
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .pill-green { background: #e6f4ea; color: #137333; }
+    .pill-yellow { background: #fff7d9; color: #b06c00; }
+    .pill-red { background: #fce8e6; color: #c5221f; }
+
+    /* ===== 宽度小卡片样式 ===== */
+    .breadth-panel {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e4f0;
+      background: #fafbff;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .breadth-panel-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .breadth-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .breadth-date {
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .breadth-cards {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .breadth-card {
+      flex: 1;
+      min-width: 210px;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.6rem;
+      background: #ffffff;
+      border: 1px solid #e0e3f3;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .breadth-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      font-size: 0.86rem;
+      font-weight: 500;
+    }
+
+    .breadth-link {
+      font-size: 0.78rem;
+      color: #4f46e5;
+      text-decoration: none;
+    }
+    .breadth-link:hover {
+      text-decoration: underline;
+    }
+
+    .breadth-lights-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .breadth-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.78rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      background: #f5f5ff;
+    }
+
+    .breadth-light .dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .dot-green  { background: #16a34a; }
+    .dot-yellow { background: #facc15; }
+    .dot-red    { background: #dc2626; }
+
+    .breadth-headline {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 960px) {
+      .breadth-cards {
+        flex-direction: column;
+      }
+    }
+
+    /* ===== 指数技术闸门样式 ===== */
+    .tech-panel {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e4f0;
+      background: #fdfdfd;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .tech-card {
+      flex: 1;
+      min-width: 210px;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.6rem;
+      background: #ffffff;
+      border: 1px solid #e0e3f3;
+      font-size: 0.85rem;
+    }
+
+    .tech-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+    }
+
+    .tech-name {
+      font-size: 0.9rem;
+    }
+
+    .tech-body {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.4;
+      margin-top: 0.25rem;
+    }
+
+    /* ===== QQQ 指标弹窗 ===== */
+    #metric-modal {
+      position: fixed;
+      left: 5%;
+      top: 5%;
+      width: 90%;
+      height: 80%;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      display: none;
+      padding: 10px;
+      z-index: 9999;
+    }
+    #metric-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    #metric-modal-close {
+      cursor: pointer;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    #metric-chart {
+      width: 100%;
+      height: 90%;
+    }
+  </style>
+</head>
+<body>
+  
+   <p>
+    <a href="options_wall_v2_.html" target="_blank">Options Wall V2 面板</a>
+    &nbsp;|&nbsp;
+    <a href="technical_signals.html" target="_blank">技术信号面板</a>
+    &nbsp;|&nbsp;
+    <a href="options.html" target="_blank">指数期权总览</a>
+  </p>
+
+  
+
+  <!-- ===== Index Breadth 概览（SP500 / NDX100 小卡片） ===== -->
+  
+    <h2>Index Breadth 概览</h2>
+    <div class="breadth-panel">
+      <div class="breadth-panel-header">
+        <div class="breadth-title">宽度状态灯 & 每日点评</div>
+        <div class="breadth-date">
+          最近更新：2025-11-20
+        </div>
+      </div>
+
+      <div class="breadth-cards">
+        
+          <div class="breadth-card">
+            <div class="breadth-card-header">
+              <span>SP500</span>
+              
+                <a href="breadth_overview.html" class="breadth-link" target="_blank">
+                  查看宽度详情
+                </a>
+              
+            </div>
+
+            <div class="breadth-lights-row">
+              <div class="breadth-light">
+                <span class="dot dot-red"></span>
+                <span>20D</span>
+                <span>27.9%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-yellow"></span>
+                <span>200D</span>
+                <span>47.0%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-red"></span>
+                <span>高位</span>
+                <span>14.1%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-yellow"></span>
+                <span>低位</span>
+                <span>19.7%</span>
+              </div>
+            </div>
+
+            
+              <div class="breadth-headline">
+                SP500 当前宽度信号大致中性，多空力量随节奏在不同区间之间切换。
+              </div>
+            
+          </div>
+        
+          <div class="breadth-card">
+            <div class="breadth-card-header">
+              <span>NDX100</span>
+              
+                <a href="breadth_overview.html" class="breadth-link" target="_blank">
+                  查看宽度详情
+                </a>
+              
+            </div>
+
+            <div class="breadth-lights-row">
+              <div class="breadth-light">
+                <span class="dot dot-red"></span>
+                <span>20D</span>
+                <span>23.5%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-yellow"></span>
+                <span>200D</span>
+                <span>46.1%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-red"></span>
+                <span>高位</span>
+                <span>15.7%</span>
+              </div>
+              <div class="breadth-light">
+                <span class="dot dot-red"></span>
+                <span>低位</span>
+                <span>25.5%</span>
+              </div>
+            </div>
+
+            
+              <div class="breadth-headline">
+                NDX100 当前宽度信号大致中性，多空力量随节奏在不同区间之间切换。
+              </div>
+            
+          </div>
+        
+      </div>
+    </div>
+  
+
+
+  <h2>SPX 期权过滤器</h2>
+  <p>
+    状态：
+    
+      <span class="pill pill-yellow">YELLOW</span>
+    
+  </p>
+  <ul>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="atm_iv">
+        ATM IV: 19.7%
+      </span>
+      （iv z-score: 1.00）
+    </li>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="skew_down">
+        下侧 skew: 116.0%
+      </span>
+    </li>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="skew_up">
+        上侧 skew: 0.5%
+      </span>
+    </li>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="cpr">
+        CPR（成交情绪）: 0.39
+      </span>
+    </li>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="d_down_sigma">
+        下方墙距离: 0.03 σ
+      </span>
+    </li>
+    <li>
+      <span class="metric-link" data-symbol="SPX" data-metric="d_up_sigma">
+        上方墙距离: 0.21 σ
+      </span>
+    </li>
+  </ul>
+
+  <div id="metric-modal">
+    <div id="metric-modal-header">
+      <div id="metric-modal-title"></div>
+      <div id="metric-modal-close">[关闭]</div>
+    </div>
+    <div id="metric-chart"></div>
+  </div>
+
+  <script>
+    // 把历史数据塞进 JS 对象
+    window.SPX_METRICS = {"dates": ["2025-11-19", "2025-11-20"], "atm_iv": [0.1753825952148437, 0.1974949025726318], "skew_up": [0.0984670856604896, 0.0051703226887008], "skew_down": [1.1966954215905286, 1.1602419875525989], "cpr": [0.3930636751461526, 0.386924399807388], "d_up_sigma": [0.1271140144551959, 0.2094202450815856], "d_down_sigma": [0.0966905777080101, 0.0258730739479773]};
+
+    const modal = document.getElementById('metric-modal');
+    const modalClose = document.getElementById('metric-modal-close');
+    const modalTitle = document.getElementById('metric-modal-title');
+    const chartDiv = document.getElementById('metric-chart');
+
+    function showMetricHistory(symbol, metricKey) {
+      const dataMap = window.SPX_METRICS;
+      if (!dataMap || !dataMap.dates || !dataMap[metricKey]) {
+        alert('No data for ' + metricKey);
+        return;
+      }
+
+      const dates = dataMap.dates;
+      const values = dataMap[metricKey];
+
+      const trace = {
+        x: dates,
+        y: values,
+        mode: 'lines+markers',
+        name: metricKey
+      };
+
+      const layout = {
+        title: symbol + ' - ' + metricKey + ' 历史',
+        xaxis: { title: 'Date' },
+        yaxis: { title: metricKey }
+      };
+
+      Plotly.newPlot(chartDiv, [trace], layout);
+      modalTitle.textContent = symbol + ' / ' + metricKey;
+      modal.style.display = 'block';
+    }
+
+    document.addEventListener('click', function(e) {
+      const target = e.target;
+      if (target.classList.contains('metric-link')) {
+        const symbol = target.getAttribute('data-symbol');
+        const metric = target.getAttribute('data-metric');
+        showMetricHistory(symbol, metric);
+      }
+    });
+
+    modalClose.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
