@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <title>技术信号 - </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
       margin: 0;
-      padding: 24px;
+      padding: 16px;
+      background: radial-gradient(circle at top left, #1f2937, #020617 55%);
+      color: #f9fafb;
     }
     .container {
       max-width: 1200px;
@@ -76,6 +75,25 @@
       .cards-row {
         flex-direction: row;
       }
+    }
+    /* 免责声明样式 */
+    .disclaimer-block {
+      margin-top: 18px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background-color: #020617;
+      border: 1px solid #1f2937;
+    }
+    .disclaimer-title {
+      font-size: 15px;
+      margin: 0 0 6px 0;
+      font-weight: 600;
+    }
+    .disclaimer-text {
+      font-size: 22px;
+      color: #9ca3af;
+      line-height: 1.7;
+      margin: 0;
     }
   </style>
 </head>
@@ -652,6 +670,17 @@
           </table>
         </div>
       </div>
+    </div>
+
+    <div class="disclaimer-block">
+      <div class="disclaimer-title">免责声明</div>
+      <p class="disclaimer-text">
+        本材料由个人研究工具自动生成，所载内容仅为对公开市场数据的客观整理与量化结果展示，
+        不构成、亦不应被视为任何形式的证券或期货投资建议、买卖要约或投资承诺。本材料未考虑任何投资者的具体投资目标、
+        财务状况及风险承受能力，相关观点和结论亦可能随市场环境变化而不再适用。期权及其他衍生品交易具有高度风险，
+        可能导致远超初始投入的损失。请在独立判断的基础上自行作出投资决策，并在必要时咨询具备相应资质的专业机构；
+        使用本材料进行的任何投资行为及其后果由投资者自行承担。
+      </p>
     </div>
   </div>
 </body>

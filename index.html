@@ -199,6 +199,25 @@
       width: 100%;
       height: 90%;
     }
+        .disclaimer-block {
+      margin-top: 1.8rem;
+      padding: 0.9rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e4f0;
+      background: #f9fafb;
+    }
+    .disclaimer-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin: 0 0 0.4rem 0;
+    }
+    .disclaimer-text {
+      font-size: 22px;  /* 比页面正文明显大一号 */
+      color: #4b5563;
+      line-height: 1.7;
+      margin: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -315,39 +334,39 @@
   <p>
     状态：
     
-      <span class="pill pill-yellow">YELLOW</span>
+      <span class="pill pill-green">GREEN</span>
     
   </p>
   <ul>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="atm_iv">
-        ATM IV: 19.7%
+        ATM IV: 16.5%
       </span>
-      （iv z-score: 1.00）
+      （iv z-score: -1.05）
     </li>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="skew_down">
-        下侧 skew: 116.0%
+        下侧 skew: 157.6%
       </span>
     </li>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="skew_up">
-        上侧 skew: 0.5%
+        上侧 skew: 21.3%
       </span>
     </li>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="cpr">
-        CPR（成交情绪）: 0.39
+        CPR（成交情绪）: 0.38
       </span>
     </li>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="d_down_sigma">
-        下方墙距离: 0.03 σ
+        下方墙距离: 0.17 σ
       </span>
     </li>
     <li>
       <span class="metric-link" data-symbol="SPX" data-metric="d_up_sigma">
-        上方墙距离: 0.21 σ
+        上方墙距离: 1.23 σ
       </span>
     </li>
   </ul>
@@ -360,9 +379,20 @@
     <div id="metric-chart"></div>
   </div>
 
+  <div class="disclaimer-block">
+    <div class="disclaimer-title">免责声明</div>
+    <p class="disclaimer-text">
+      本材料由个人研究工具自动生成，所载内容仅为对公开市场数据的客观整理与量化结果展示，
+      不构成、亦不应被视为任何形式的证券或期货投资建议、买卖要约或投资承诺。本材料未考虑任何投资者的具体投资目标、
+      财务状况及风险承受能力，相关观点和结论亦可能随市场环境变化而不再适用。期权及其他衍生品交易具有高度风险，
+      可能导致远超初始投入的损失。请在独立判断的基础上自行作出投资决策，并在必要时咨询具备相应资质的专业机构；
+      使用本材料进行的任何投资行为及其后果由投资者自行承担。
+    </p>
+  </div>
+
   <script>
     // 把历史数据塞进 JS 对象
-    window.SPX_METRICS = {"dates": ["2025-11-19", "2025-11-20"], "atm_iv": [0.1753825952148437, 0.1974949025726318], "skew_up": [0.0984670856604896, 0.0051703226887008], "skew_down": [1.1966954215905286, 1.1602419875525989], "cpr": [0.3930636751461526, 0.386924399807388], "d_up_sigma": [0.1271140144551959, 0.2094202450815856], "d_down_sigma": [0.0966905777080101, 0.0258730739479773]};
+    window.SPX_METRICS = {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.1753825952148437, 0.1974949025726318, 0.1651465932464599], "skew_up": [0.0984670856604896, 0.0051703226887008, 0.2128155780422101], "skew_down": [1.1966954215905286, 1.1602419875525989, 1.5761513714203492], "cpr": [0.3930636751461526, 0.386924399807388, 0.3831378273377325], "d_up_sigma": [0.1271140144551959, 0.2094202450815856, 1.2278540804115132], "d_down_sigma": [0.0966905777080101, 0.0258730739479773, 0.1668155645673996]};
 
     const modal = document.getElementById('metric-modal');
     const modalClose = document.getElementById('metric-modal-close');
