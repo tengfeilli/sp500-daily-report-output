@@ -109,10 +109,6 @@
       margin: 0;
       white-space: pre-line;
     }
-    .comment-block span.highlight {
-      color: #f97316;
-      font-weight: 600;
-    }
     .comment-title {
       font-size: 13px;
       font-weight: 600;
@@ -123,7 +119,6 @@
       color: #9ca3af;
       margin-top: 4px;
     }
-
     .small-note {
       font-size: 11px;
       color: #6b7280;
@@ -131,81 +126,1095 @@
       border-top: 1px solid #111827;
       padding-top: 6px;
     }
+
+    ul.comment-block {
+      margin: 0;
+      padding-left: 18px;
+    }
+    ul.comment-block li {
+      margin-bottom: 2px;
+    }
+
+    .symbol-panel {
+      display: none;
+    }
+
+    .metric-table td:nth-child(2) {
+      max-width: 260px;
+    }
+
+    .metric-value {
+      cursor: pointer;
+      border-bottom: 1px dashed #6b7280;
+    }
+    .metric-value:hover {
+      color: #60a5fa;
+    }
+
+    .muted {
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    select {
+      background-color: #020617;
+      color: #e5e7eb;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
   </style>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
   <h1>期权概览</h1>
   <div style="margin-bottom: 4px;">
     <a href="index.html" class="back-link">&larr; 返回首页</a>
   </div>
-  <div class="subtitle">交易日：2025-11-21 —— 主要涵盖 SPX / SPY / QQQ / NDX 等标的的整体仓位结构与成交情况</div>
-
-  <div class="two-columns">
-
-    <!-- 左列：Delta / Gamma 结构 -->
-    <div class="col">
-      <div class="section">
-        <div class="section-title">① 整体 Δ / Γ 结构</div>
-        <div class="section-subtitle">从名义 Delta 与 Gamma 角度，观察多空力量的结构分布。</div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>标的</th>
-              <th>Call Δ名义</th>
-              <th>Put Δ名义</th>
-              <th>净 Δ</th>
-              <th>Δ 方向</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-
-        <div class="comment-title">文字解读：</div>
-        <p class="comment-block"></p>
-        <p class="comment-muted">说明：这里的 Δ 名义基于 |Δ| × OI × 乘数 × 标的价，用于反映持仓对标的价格变动的敏感度。</p>
-      </div>
-    </div>
-
-    <!-- 右列：成交量 / 高频交易节奏 -->
-    <div class="col">
-      <div class="section">
-        <div class="section-title">② 成交量与短线节奏</div>
-        <div class="section-subtitle">从成交量与近月合约的活跃程度，观察短线交易的热度与节奏。</div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>标的</th>
-              <th>总成交量</th>
-              <th>近月占比</th>
-              <th>活跃度灯</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-
-        <div class="comment-title">文字解读：</div>
-        <p class="comment-block"></p>
-        <p class="comment-muted">说明：近月占比越高，说明短线博弈越集中；若成交量与近月占比同时升高，代表期权市场短线情绪更活跃。</p>
-      </div>
-    </div>
-
+  <div class="subtitle">
+    交易日：2025-11-21 —— 从隐含波动、skew、CPR 与上下方“期权墙”角度看整体结构。
+    点击指标数值可以切换历史轨迹图。
   </div>
 
-  <!-- 底部：整体点评 -->
+  <!-- 选择标的 -->
   <div class="section">
-    <div class="section-title">③ 整体结构小结</div>
-    <p class="comment-block"></p>
+    <div class="section-title">① 选择标的</div>
+    <div class="section-subtitle">先从 SPX / SPY / QQQ / NDX 等指数/ETF 看整体，再切换到权重股。</div>
+    <label>
+      当前标的：
+      <select id="symbol-select">
+        
+          <option value="NDX" >NDX</option>
+        
+          <option value="QQQ" selected>QQQ</option>
+        
+          <option value="SPX" >SPX</option>
+        
+          <option value="SPY" >SPY</option>
+        
+        
+      </select>
+    </label>
+  </div>
+
+  <!-- 每个标的的面板 -->
+  <div id="symbol-panels">
+    
+      <div class="symbol-panel" data-symbol="NDX">
+        <!-- 关键指标表 -->
+        <div class="section">
+          <div class="section-title">② NDX 关键指标</div>
+          <div class="section-subtitle">点击下方数值，可在右下角图表中查看对应指标的历史走势。</div>
+          <table class="metric-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>数值（点击看历史）</th>
+                <th>灯号</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ATM IV</td>
+                <td>
+                  <span class="metric-value" data-metric="atm_iv">
+                    18.7%
+                  </span>
+                  <span style="color:#9ca3af;">（IV z≈-1.41）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏离</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下侧 skew（Put）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_down">
+                    99.9%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">很高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上侧 skew（Call）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_up">
+                    18.7%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>CPR（Call/Put 成交比）</td>
+                <td>
+                  <span class="metric-value" data-metric="cpr">
+                    0.74
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">极端偏向</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下方 Put 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_down_sigma">
+                    2.76
+                  </span>
+                  <span style="color:#9ca3af;">（K≈24000.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-green">支撑适中</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上方 Call 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_up_sigma">
+                    3.00
+                  </span>
+                  <span style="color:#9ca3af;">（K≈24500.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略有限制</span>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 指标解读 & 趋势 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">③ 当日指标解读</div>
+            <ul class="comment-block">
+              
+                <li>ATM IV：约 18.7%，IV z≈-1.41，隐含波动偏低，波动溢价相对便宜。</li>
+              
+                <li>下侧 skew：约 99.9%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。</li>
+              
+                <li>上侧 skew：约 18.7%，略偏高，上涨方向期权略有拥挤。</li>
+              
+                <li>CPR：≈0.74，Call 成交显著占优，乐观情绪较强。</li>
+              
+                <li>下方墙距离：最近 Put 墙约 2.76 σ（K≈24000.00），存在一定支撑，缓冲空间尚可。</li>
+              
+                <li>上方墙距离：最近 Call 墙约 3.00 σ（K≈24500.00），上方存在一定拥挤，对持续上行有一定牵制。</li>
+              
+            </ul>
+          </div>
+          <div class="col">
+            <div class="section-title">④ 趋势信号 & 综合结构</div>
+            <div class="comment-title">趋势观察：</div>
+            <ul class="comment-block">
+              
+                <li>最近样本不足，暂无特别突出的趋势信号。</li>
+              
+            </ul>
+            <div class="comment-title" style="margin-top:6px;">综合结构点评：</div>
+            <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 略偏高、成交情绪极端。</p>
+          </div>
+        </div>
+
+        <!-- Top5 墙 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">⑤ 下方 Put 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>21000.00</td>
+                      <td>676,527,344</td>
+                      <td>37.32</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>21400.00</td>
+                      <td>265,357,007</td>
+                      <td>32.71</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>21500.00</td>
+                      <td>255,795,675</td>
+                      <td>31.56</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>22000.00</td>
+                      <td>207,456,949</td>
+                      <td>25.80</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>23900.00</td>
+                      <td>199,689,660</td>
+                      <td>3.91</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="section-title">⑥ 上方 Call 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>24500.00</td>
+                      <td>4,555,430,360</td>
+                      <td>3.00</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>24800.00</td>
+                      <td>612,237,316</td>
+                      <td>6.46</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>24625.00</td>
+                      <td>548,757,049</td>
+                      <td>4.44</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>25000.00</td>
+                      <td>436,421,328</td>
+                      <td>8.76</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>25500.00</td>
+                      <td>406,185,243</td>
+                      <td>14.52</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+      <div class="symbol-panel" data-symbol="QQQ">
+        <!-- 关键指标表 -->
+        <div class="section">
+          <div class="section-title">② QQQ 关键指标</div>
+          <div class="section-subtitle">点击下方数值，可在右下角图表中查看对应指标的历史走势。</div>
+          <table class="metric-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>数值（点击看历史）</th>
+                <th>灯号</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ATM IV</td>
+                <td>
+                  <span class="metric-value" data-metric="atm_iv">
+                    24.0%
+                  </span>
+                  <span style="color:#9ca3af;">（IV z≈-1.39）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏离</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下侧 skew（Put）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_down">
+                    65.6%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">很高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上侧 skew（Call）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_up">
+                    16.4%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>CPR（Call/Put 成交比）</td>
+                <td>
+                  <span class="metric-value" data-metric="cpr">
+                    0.43
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-green">均衡</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下方 Put 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_down_sigma">
+                    0.03
+                  </span>
+                  <span style="color:#9ca3af;">（K≈590.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">偏近 / 偏远</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上方 Call 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_up_sigma">
+                    1.73
+                  </span>
+                  <span style="color:#9ca3af;">（K≈594.78）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略有限制</span>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 指标解读 & 趋势 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">③ 当日指标解读</div>
+            <ul class="comment-block">
+              
+                <li>ATM IV：约 24.0%，IV z≈-1.39，隐含波动偏低，波动溢价相对便宜。</li>
+              
+                <li>下侧 skew：约 65.6%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。</li>
+              
+                <li>上侧 skew：约 16.4%，略偏高，上涨方向期权略有拥挤。</li>
+              
+                <li>CPR：≈0.43，Call/Put 成交大致均衡，整体情绪中性。</li>
+              
+                <li>下方墙距离：最近 Put 墙约 0.03 σ（K≈590.00），非常靠近现价，支撑与拥挤都很强，短期波动容易被放大。</li>
+              
+                <li>上方墙距离：最近 Call 墙约 1.73 σ（K≈594.78），上方存在一定拥挤，对持续上行有一定牵制。</li>
+              
+            </ul>
+          </div>
+          <div class="col">
+            <div class="section-title">④ 趋势信号 & 综合结构</div>
+            <div class="comment-title">趋势观察：</div>
+            <ul class="comment-block">
+              
+                <li>最近样本不足，暂无特别突出的趋势信号。</li>
+              
+            </ul>
+            <div class="comment-title" style="margin-top:6px;">综合结构点评：</div>
+            <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 略偏高、下方 Put 墙位置偏极端。</p>
+          </div>
+        </div>
+
+        <!-- Top5 墙 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">⑤ 下方 Put 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>590.00</td>
+                      <td>2,264,389,874</td>
+                      <td>0.03</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>585.00</td>
+                      <td>1,849,901,555</td>
+                      <td>1.87</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>575.00</td>
+                      <td>1,641,188,946</td>
+                      <td>5.55</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>580.00</td>
+                      <td>1,452,747,213</td>
+                      <td>3.71</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>570.00</td>
+                      <td>1,219,147,562</td>
+                      <td>7.39</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="section-title">⑥ 上方 Call 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>600.00</td>
+                      <td>1,279,624,526</td>
+                      <td>3.66</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>620.00</td>
+                      <td>531,409,256</td>
+                      <td>11.02</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>615.00</td>
+                      <td>502,885,613</td>
+                      <td>9.18</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>610.00</td>
+                      <td>441,476,472</td>
+                      <td>7.34</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>605.00</td>
+                      <td>425,320,710</td>
+                      <td>5.50</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+      <div class="symbol-panel" data-symbol="SPX">
+        <!-- 关键指标表 -->
+        <div class="section">
+          <div class="section-title">② SPX 关键指标</div>
+          <div class="section-subtitle">点击下方数值，可在右下角图表中查看对应指标的历史走势。</div>
+          <table class="metric-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>数值（点击看历史）</th>
+                <th>灯号</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ATM IV</td>
+                <td>
+                  <span class="metric-value" data-metric="atm_iv">
+                    16.5%
+                  </span>
+                  <span style="color:#9ca3af;">（IV z≈-1.05）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏离</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下侧 skew（Put）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_down">
+                    157.6%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">很高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上侧 skew（Call）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_up">
+                    21.3%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>CPR（Call/Put 成交比）</td>
+                <td>
+                  <span class="metric-value" data-metric="cpr">
+                    0.38
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略向一侧</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下方 Put 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_down_sigma">
+                    0.17
+                  </span>
+                  <span style="color:#9ca3af;">（K≈6600.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">偏近 / 偏远</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上方 Call 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_up_sigma">
+                    1.23
+                  </span>
+                  <span style="color:#9ca3af;">（K≈6625.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略有限制</span>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 指标解读 & 趋势 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">③ 当日指标解读</div>
+            <ul class="comment-block">
+              
+                <li>ATM IV：约 16.5%，IV z≈-1.05，隐含波动偏低，波动溢价相对便宜。</li>
+              
+                <li>下侧 skew：约 157.6%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。</li>
+              
+                <li>上侧 skew：约 21.3%，略偏高，上涨方向期权略有拥挤。</li>
+              
+                <li>CPR：≈0.38，Put 成交略占优，整体情绪偏防守。</li>
+              
+                <li>下方墙距离：最近 Put 墙约 0.17 σ（K≈6600.00），非常靠近现价，支撑与拥挤都很强，短期波动容易被放大。</li>
+              
+                <li>上方墙距离：最近 Call 墙约 1.23 σ（K≈6625.00），上方存在一定拥挤，对持续上行有一定牵制。</li>
+              
+            </ul>
+          </div>
+          <div class="col">
+            <div class="section-title">④ 趋势信号 & 综合结构</div>
+            <div class="comment-title">趋势观察：</div>
+            <ul class="comment-block">
+              
+                <li>最近样本不足，暂无特别突出的趋势信号。</li>
+              
+            </ul>
+            <div class="comment-title" style="margin-top:6px;">综合结构点评：</div>
+            <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 略偏高、成交情绪略偏一侧。</p>
+          </div>
+        </div>
+
+        <!-- Top5 墙 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">⑤ 下方 Put 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>6600.00</td>
+                      <td>27,820,363,653</td>
+                      <td>0.17</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6000.00</td>
+                      <td>20,273,248,003</td>
+                      <td>33.64</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6500.00</td>
+                      <td>18,474,424,871</td>
+                      <td>5.75</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6400.00</td>
+                      <td>8,897,304,913</td>
+                      <td>11.32</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6550.00</td>
+                      <td>8,208,185,421</td>
+                      <td>2.96</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="section-title">⑥ 上方 Call 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>6700.00</td>
+                      <td>22,486,162,310</td>
+                      <td>5.41</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6650.00</td>
+                      <td>15,269,667,424</td>
+                      <td>2.62</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6800.00</td>
+                      <td>11,696,964,221</td>
+                      <td>10.99</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6750.00</td>
+                      <td>11,613,611,259</td>
+                      <td>8.20</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>6675.00</td>
+                      <td>5,015,712,624</td>
+                      <td>4.02</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+      <div class="symbol-panel" data-symbol="SPY">
+        <!-- 关键指标表 -->
+        <div class="section">
+          <div class="section-title">② SPY 关键指标</div>
+          <div class="section-subtitle">点击下方数值，可在右下角图表中查看对应指标的历史走势。</div>
+          <table class="metric-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>数值（点击看历史）</th>
+                <th>灯号</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ATM IV</td>
+                <td>
+                  <span class="metric-value" data-metric="atm_iv">
+                    18.7%
+                  </span>
+                  <span style="color:#9ca3af;">（IV z≈-1.34）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">略偏离</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下侧 skew（Put）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_down">
+                    134.7%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">很高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上侧 skew（Call）</td>
+                <td>
+                  <span class="metric-value" data-metric="skew_up">
+                    40.0%
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">很高</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>CPR（Call/Put 成交比）</td>
+                <td>
+                  <span class="metric-value" data-metric="cpr">
+                    0.50
+                  </span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-green">均衡</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>下方 Put 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_down_sigma">
+                    0.01
+                  </span>
+                  <span style="color:#9ca3af;">（K≈659.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-yellow">偏近 / 偏远</span>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td>上方 Call 墙距离（σ）</td>
+                <td>
+                  <span class="metric-value" data-metric="d_up_sigma">
+                    0.41
+                  </span>
+                  <span style="color:#9ca3af;">（K≈660.00）</span>
+                </td>
+                <td>
+                  
+                    <span class="badge badge-red">非常靠近</span>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 指标解读 & 趋势 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">③ 当日指标解读</div>
+            <ul class="comment-block">
+              
+                <li>ATM IV：约 18.7%，IV z≈-1.34，隐含波动偏低，波动溢价相对便宜。</li>
+              
+                <li>下侧 skew：约 134.7%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。</li>
+              
+                <li>上侧 skew：约 40.0%，明显偏高，乐观/追涨情绪占优，上涨尾部溢价较高。</li>
+              
+                <li>CPR：≈0.50，Call/Put 成交大致均衡，整体情绪中性。</li>
+              
+                <li>下方墙距离：最近 Put 墙约 0.01 σ（K≈659.00），非常靠近现价，支撑与拥挤都很强，短期波动容易被放大。</li>
+              
+                <li>上方墙距离：最近 Call 墙约 0.41 σ（K≈660.00），非常靠近现价，上涨空间容易受到期权仓位约束。</li>
+              
+            </ul>
+          </div>
+          <div class="col">
+            <div class="section-title">④ 趋势信号 & 综合结构</div>
+            <div class="comment-title">趋势观察：</div>
+            <ul class="comment-block">
+              
+                <li>最近样本不足，暂无特别突出的趋势信号。</li>
+              
+            </ul>
+            <div class="comment-title" style="margin-top:6px;">综合结构点评：</div>
+            <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 很高、下方 Put 墙位置偏极端。</p>
+          </div>
+        </div>
+
+        <!-- Top5 墙 -->
+        <div class="section two-columns">
+          <div class="col">
+            <div class="section-title">⑤ 下方 Put 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>650.00</td>
+                      <td>3,300,635,252</td>
+                      <td>3.82</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>645.00</td>
+                      <td>2,302,294,567</td>
+                      <td>5.94</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>655.00</td>
+                      <td>2,084,261,681</td>
+                      <td>1.71</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>640.00</td>
+                      <td>1,743,961,582</td>
+                      <td>8.06</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>630.00</td>
+                      <td>1,487,602,539</td>
+                      <td>12.29</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="section-title">⑥ 上方 Call 墙（TOP5）</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>行权价</th>
+                  <th>名义规模</th>
+                  <th>距离(σ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  
+                    <tr>
+                      <td>660.00</td>
+                      <td>1,636,516,315</td>
+                      <td>0.41</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>670.00</td>
+                      <td>1,483,476,154</td>
+                      <td>4.64</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>680.00</td>
+                      <td>1,050,371,467</td>
+                      <td>8.88</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>665.00</td>
+                      <td>1,040,383,543</td>
+                      <td>2.53</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>675.00</td>
+                      <td>656,365,108</td>
+                      <td>6.76</td>
+                    </tr>
+                  
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+
+  <!-- 指标历史图 -->
+  <div class="section">
+    <div class="section-title">⑦ 指标历史轨迹</div>
+    <div class="section-subtitle">
+      默认显示 ATM IV 历史。点击上面任何一个“数值”，可以切换到对应指标。
+    </div>
+    <div id="metric-chart" style="width:100%; height:320px;"></div>
     <p class="small-note">
-      提示：以上分析仅基于当前交易日的期权持仓与成交快照，更多用于辅助理解结构性风险与情绪，而非方向预测。
-      建议结合标的价格结构、波动率水平与宏观环境综合判断。
+      提示：这里只展示单个标的、单个指标的简单历史轨迹，用于直观感受“当前点位是否极端”。
+      更复杂的统计可以在 Python 端继续扩展。
     </p>
   </div>
 
+  <script>
+    const metricsHist = {"NDX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.3061869385051727, 0.2959979839992523, 0.1867547298240661], "skew_up": [-0.2613346073097741, -0.2245025949631852, 0.1867246220002653], "skew_down": [0.4477089620228691, 0.4259817611063631, 0.99890642808895], "cpr": [0.2818627450980392, 0.818070818070818, 0.7383059418457648], "d_up_sigma": [0.3597239290650594, 1.2441793870265072, 2.999775733185791], "d_down_sigma": [0.245012909920068, 0.2510119147462743, 2.7595057104587455], "iv_zscore": [0.7992486146761986, 0.6107722677519168, -1.4100208824281144]}, "QQQ": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.2919306037139891, 0.3057320404052733, 0.239967317199707], "skew_up": [-0.1053147030049924, -0.1135647434909204, 0.1638705163347069], "skew_down": [0.4617873060936767, 0.4525574522809045, 0.6563227179239551], "cpr": [0.4953678253839935, 0.4205167821774894, 0.4323192165202609], "d_up_sigma": [0.0301074001178996, 0.0840902003325721, 1.7344405544936674], "d_down_sigma": [0.0208416710450019, 0.1707153928334832, 0.0257799853619616], "iv_zscore": [0.4492533651041428, 0.9366779977351286, -1.385931362839269]}, "SPX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.1753825952148437, 0.1974949025726318, 0.1651465932464599], "skew_up": [0.0984670856604896, 0.0051703226887008, 0.2128155780422101], "skew_down": [1.1966954215905286, 1.1602419875525989, 1.5761513714203492], "cpr": [0.3930636751461526, 0.386924399807388, 0.3831378273377325], "d_up_sigma": [0.1271140144551959, 0.2094202450815856, 1.2278540804115132], "d_down_sigma": [0.0966905777080101, 0.0258730739479773, 0.1668155645673996], "iv_zscore": [-0.2932516744816516, 1.3447504516112514, -1.0514987771295996]}, "SPY": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.212074529724121, 0.2239610075378417, 0.1868977795410156], "skew_up": [0.0555929078237342, 0.0444046333855873, 0.3998954719190525], "skew_down": [1.0449163568567714, 0.9824806649911132, 1.3467152016311992], "cpr": [0.520769305728378, 0.4874320115781779, 0.4982835617169252], "d_up_sigma": [0.1067792184084137, 0.1467238614427103, 0.4106237792058581], "d_down_sigma": [0.1818170723212878, 0.1654740276322722, 0.0127124905216009], "iv_zscore": [0.2867027404684276, 1.055961413803348, -1.3426641542717703]}};
+    const defaultSymbol = "QQQ";
+
+    function showPanel(sym) {
+      const panels = document.querySelectorAll(".symbol-panel");
+      panels.forEach(p => {
+        if (p.getAttribute("data-symbol") === sym) {
+          p.style.display = "block";
+        } else {
+          p.style.display = "none";
+        }
+      });
+    }
+
+    function drawChart(sym, metricKey) {
+      if (typeof Plotly === "undefined") { return; }
+      const container = document.getElementById("metric-chart");
+      if (!container) return;
+
+      const all = metricsHist || {};
+      const series = all[sym] || null;
+      if (!series) {
+        Plotly.newPlot(container, [], {
+          title: sym + " - " + metricKey
+        }, {displayModeBar: false});
+        return;
+      }
+
+      const x = series["dates"] || [];
+      const y = series[metricKey] || [];
+
+      const trace = {
+        x: x,
+        y: y,
+        mode: "lines+markers",
+        name: metricKey
+      };
+
+      const layout = {
+        title: sym + " - " + metricKey,
+        margin: {l: 40, r: 10, t: 30, b: 40},
+        paper_bgcolor: "#0f172a",
+        plot_bgcolor: "#020617",
+        font: {color: "#e5e7eb"},
+        xaxis: {title: "日期"},
+        yaxis: {title: metricKey}
+      };
+
+      Plotly.newPlot(container, [trace], layout, {displayModeBar: false});
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const select = document.getElementById("symbol-select");
+
+      if (select) {
+        select.addEventListener("change", function () {
+          const sym = this.value;
+          showPanel(sym);
+          drawChart(sym, "atm_iv");
+        });
+      }
+
+      document.querySelectorAll(".metric-value").forEach(el => {
+        el.addEventListener("click", function () {
+          const metricKey = this.getAttribute("data-metric");
+          const sym = (select && select.value) || defaultSymbol;
+          drawChart(sym, metricKey);
+        });
+      });
+
+      const initialSymbol = (select && select.value) || defaultSymbol;
+      showPanel(initialSymbol);
+      drawChart(initialSymbol, "atm_iv");
+    });
+  </script>
 </body>
 </html>
