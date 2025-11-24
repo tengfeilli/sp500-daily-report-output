@@ -314,9 +314,9 @@
                 <td>ATM IV</td>
                 <td>
                   <span class="metric-value" data-metric="atm_iv" data-label="ATM IV">
-                    18.7%
+                    32.3%
                   </span>
-                  <span style="color:#9ca3af;">（IV z≈-1.41）</span>
+                  <span style="color:#9ca3af;">（IV z≈1.32）</span>
                 </td>
                 <td>
                   
@@ -324,14 +324,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  ATM IV：约 18.7%，IV z≈-1.41，隐含波动偏低，波动溢价相对便宜。
+                  ATM IV：约 32.3%，IV 略偏高（z≈1.32），市场对未来波动的定价略偏紧张。
                 </td>
               </tr>
               <tr>
                 <td>下侧 skew（Put）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_down" data-label="下侧 skew（Put）">
-                    99.9%
+                    46.6%
                   </span>
                 </td>
                 <td>
@@ -340,46 +340,46 @@
                   
                 </td>
                 <td class="metric-comment">
-                  下侧 skew：约 99.9%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
+                  下侧 skew：约 46.6%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
                 </td>
               </tr>
               <tr>
                 <td>上侧 skew（Call）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_up" data-label="上侧 skew（Call）">
-                    18.7%
+                    -16.1%
                   </span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-yellow">略偏高</span>
+                    <span class="badge badge-green">平稳</span>
                   
                 </td>
                 <td class="metric-comment">
-                  上侧 skew：约 18.7%，略偏高，上涨方向期权略有拥挤。
+                  上侧 skew：约 -16.1%，结构较平，上涨与下跌方向定价接近。
                 </td>
               </tr>
               <tr>
                 <td>CPR（Call/Put 成交比）</td>
                 <td>
                   <span class="metric-value" data-metric="cpr" data-label="CPR（Call/Put）">
-                    0.74
+                    0.59
                   </span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-red">极端偏向</span>
+                    <span class="badge badge-green">均衡</span>
                   
                 </td>
                 <td class="metric-comment">
-                  CPR：≈0.74，Call 成交显著占优，乐观情绪较强。
+                  CPR：≈0.59，Call/Put 成交大致均衡，整体情绪中性。
                 </td>
               </tr>
               <tr>
                 <td>下方 Put 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_down_sigma" data-label="下方 Put 墙距离">
-                    2.76
+                    2.23
                   </span>
                   <span style="color:#9ca3af;">（K≈24000.00）</span>
                 </td>
@@ -389,14 +389,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  下方墙距离：最近 Put 墙约 2.76 σ（K≈24000.00），存在一定支撑，缓冲空间尚可。
+                  下方墙距离：最近 Put 墙约 2.23 σ（K≈24000.00），存在一定支撑，缓冲空间尚可。
                 </td>
               </tr>
               <tr>
                 <td>上方 Call 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_up_sigma" data-label="上方 Call 墙距离">
-                    3.00
+                    2.42
                   </span>
                   <span style="color:#9ca3af;">（K≈24500.00）</span>
                 </td>
@@ -406,7 +406,7 @@
                   
                 </td>
                 <td class="metric-comment">
-                  上方墙距离：最近 Call 墙约 3.00 σ（K≈24500.00），上方存在一定拥挤，对持续上行有一定牵制。
+                  上方墙距离：最近 Call 墙约 2.42 σ（K≈24500.00），上方存在一定拥挤，对持续上行有一定牵制。
                 </td>
               </tr>
             </tbody>
@@ -420,7 +420,7 @@
         <!-- ③ 综合结构点评 -->
         <div class="section">
           <div class="section-title">③ 综合结构点评</div>
-          <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 略偏高、成交情绪极端。</p>
+          <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上方 Call 墙位置偏极端。</p>
         </div>
 
         <!-- ④/⑤ Top5 墙 -->
@@ -440,32 +440,32 @@
                   
                     <tr>
                       <td>21000.00</td>
-                      <td>676,527,344</td>
-                      <td>37.32</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>21400.00</td>
-                      <td>265,357,007</td>
-                      <td>32.71</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>21500.00</td>
-                      <td>255,795,675</td>
-                      <td>31.56</td>
+                      <td>853,577,087</td>
+                      <td>30.16</td>
                     </tr>
                   
                     <tr>
                       <td>22000.00</td>
-                      <td>207,456,949</td>
-                      <td>25.80</td>
+                      <td>702,983,377</td>
+                      <td>20.85</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>21400.00</td>
+                      <td>328,795,935</td>
+                      <td>26.44</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>21500.00</td>
+                      <td>319,909,015</td>
+                      <td>25.51</td>
                     </tr>
                   
                     <tr>
                       <td>23900.00</td>
-                      <td>199,689,660</td>
-                      <td>3.91</td>
+                      <td>200,798,684</td>
+                      <td>3.16</td>
                     </tr>
                   
                 
@@ -487,32 +487,32 @@
                   
                     <tr>
                       <td>24500.00</td>
-                      <td>4,555,430,360</td>
-                      <td>3.00</td>
+                      <td>4,582,039,938</td>
+                      <td>2.42</td>
                     </tr>
                   
                     <tr>
                       <td>24800.00</td>
-                      <td>612,237,316</td>
-                      <td>6.46</td>
+                      <td>620,363,170</td>
+                      <td>5.22</td>
                     </tr>
                   
                     <tr>
                       <td>24625.00</td>
-                      <td>548,757,049</td>
-                      <td>4.44</td>
+                      <td>553,504,590</td>
+                      <td>3.59</td>
+                    </tr>
+                  
+                    <tr>
+                      <td>25200.00</td>
+                      <td>468,929,350</td>
+                      <td>8.94</td>
                     </tr>
                   
                     <tr>
                       <td>25000.00</td>
-                      <td>436,421,328</td>
-                      <td>8.76</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>25500.00</td>
-                      <td>406,185,243</td>
-                      <td>14.52</td>
+                      <td>445,014,125</td>
+                      <td>7.08</td>
                     </tr>
                   
                 
@@ -545,9 +545,9 @@
                 <td>ATM IV</td>
                 <td>
                   <span class="metric-value" data-metric="atm_iv" data-label="ATM IV">
-                    24.0%
+                    32.0%
                   </span>
-                  <span style="color:#9ca3af;">（IV z≈-1.39）</span>
+                  <span style="color:#9ca3af;">（IV z≈1.23）</span>
                 </td>
                 <td>
                   
@@ -555,14 +555,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  ATM IV：约 24.0%，IV z≈-1.39，隐含波动偏低，波动溢价相对便宜。
+                  ATM IV：约 32.0%，IV 略偏高（z≈1.23），市场对未来波动的定价略偏紧张。
                 </td>
               </tr>
               <tr>
                 <td>下侧 skew（Put）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_down" data-label="下侧 skew（Put）">
-                    65.6%
+                    58.5%
                   </span>
                 </td>
                 <td>
@@ -571,14 +571,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  下侧 skew：约 65.6%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
+                  下侧 skew：约 58.5%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
                 </td>
               </tr>
               <tr>
                 <td>上侧 skew（Call）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_up" data-label="上侧 skew（Call）">
-                    16.4%
+                    16.1%
                   </span>
                 </td>
                 <td>
@@ -587,14 +587,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  上侧 skew：约 16.4%，略偏高，上涨方向期权略有拥挤。
+                  上侧 skew：约 16.1%，略偏高，上涨方向期权略有拥挤。
                 </td>
               </tr>
               <tr>
                 <td>CPR（Call/Put 成交比）</td>
                 <td>
                   <span class="metric-value" data-metric="cpr" data-label="CPR（Call/Put）">
-                    0.43
+                    0.44
                   </span>
                 </td>
                 <td>
@@ -603,7 +603,7 @@
                   
                 </td>
                 <td class="metric-comment">
-                  CPR：≈0.43，Call/Put 成交大致均衡，整体情绪中性。
+                  CPR：≈0.44，Call/Put 成交大致均衡，整体情绪中性。
                 </td>
               </tr>
               <tr>
@@ -627,7 +627,7 @@
                 <td>上方 Call 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_up_sigma" data-label="上方 Call 墙距离">
-                    1.73
+                    1.82
                   </span>
                   <span style="color:#9ca3af;">（K≈594.78）</span>
                 </td>
@@ -637,7 +637,7 @@
                   
                 </td>
                 <td class="metric-comment">
-                  上方墙距离：最近 Call 墙约 1.73 σ（K≈594.78），上方存在一定拥挤，对持续上行有一定牵制。
+                  上方墙距离：最近 Call 墙约 1.82 σ（K≈594.78），上方存在一定拥挤，对持续上行有一定牵制。
                 </td>
               </tr>
             </tbody>
@@ -671,32 +671,32 @@
                   
                     <tr>
                       <td>590.00</td>
-                      <td>2,264,389,874</td>
+                      <td>2,328,996,232</td>
                       <td>0.03</td>
                     </tr>
                   
                     <tr>
                       <td>585.00</td>
-                      <td>1,849,901,555</td>
-                      <td>1.87</td>
+                      <td>1,931,887,775</td>
+                      <td>1.96</td>
                     </tr>
                   
                     <tr>
                       <td>575.00</td>
-                      <td>1,641,188,946</td>
-                      <td>5.55</td>
+                      <td>1,806,385,156</td>
+                      <td>5.83</td>
                     </tr>
                   
                     <tr>
                       <td>580.00</td>
-                      <td>1,452,747,213</td>
-                      <td>3.71</td>
+                      <td>1,589,378,651</td>
+                      <td>3.90</td>
                     </tr>
                   
                     <tr>
                       <td>570.00</td>
-                      <td>1,219,147,562</td>
-                      <td>7.39</td>
+                      <td>1,302,677,871</td>
+                      <td>7.77</td>
                     </tr>
                   
                 
@@ -718,32 +718,32 @@
                   
                     <tr>
                       <td>600.00</td>
-                      <td>1,279,624,526</td>
-                      <td>3.66</td>
+                      <td>1,396,586,825</td>
+                      <td>3.84</td>
                     </tr>
                   
                     <tr>
                       <td>620.00</td>
-                      <td>531,409,256</td>
-                      <td>11.02</td>
+                      <td>682,306,441</td>
+                      <td>11.59</td>
                     </tr>
                   
                     <tr>
                       <td>615.00</td>
-                      <td>502,885,613</td>
-                      <td>9.18</td>
+                      <td>580,657,947</td>
+                      <td>9.65</td>
                     </tr>
                   
                     <tr>
                       <td>610.00</td>
-                      <td>441,476,472</td>
-                      <td>7.34</td>
+                      <td>542,533,496</td>
+                      <td>7.72</td>
                     </tr>
                   
                     <tr>
                       <td>605.00</td>
-                      <td>425,320,710</td>
-                      <td>5.50</td>
+                      <td>480,819,854</td>
+                      <td>5.78</td>
                     </tr>
                   
                 
@@ -776,9 +776,9 @@
                 <td>ATM IV</td>
                 <td>
                   <span class="metric-value" data-metric="atm_iv" data-label="ATM IV">
-                    16.5%
+                    104.0%
                   </span>
-                  <span style="color:#9ca3af;">（IV z≈-1.05）</span>
+                  <span style="color:#9ca3af;">（IV z≈1.41）</span>
                 </td>
                 <td>
                   
@@ -786,14 +786,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  ATM IV：约 16.5%，IV z≈-1.05，隐含波动偏低，波动溢价相对便宜。
+                  ATM IV：约 104.0%，IV 略偏高（z≈1.41），市场对未来波动的定价略偏紧张。
                 </td>
               </tr>
               <tr>
                 <td>下侧 skew（Put）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_down" data-label="下侧 skew（Put）">
-                    157.6%
+                    60.0%
                   </span>
                 </td>
                 <td>
@@ -802,73 +802,73 @@
                   
                 </td>
                 <td class="metric-comment">
-                  下侧 skew：约 157.6%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
+                  下侧 skew：约 60.0%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
                 </td>
               </tr>
               <tr>
                 <td>上侧 skew（Call）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_up" data-label="上侧 skew（Call）">
-                    21.3%
+                    —
                   </span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-yellow">略偏高</span>
+                    <span class="badge badge-neutral">未知</span>
                   
                 </td>
                 <td class="metric-comment">
-                  上侧 skew：约 21.3%，略偏高，上涨方向期权略有拥挤。
+                  上侧 skew：数据不足。
                 </td>
               </tr>
               <tr>
                 <td>CPR（Call/Put 成交比）</td>
                 <td>
                   <span class="metric-value" data-metric="cpr" data-label="CPR（Call/Put）">
-                    0.38
+                    0.10
                   </span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-yellow">略向一侧</span>
+                    <span class="badge badge-red">极端偏向</span>
                   
                 </td>
                 <td class="metric-comment">
-                  CPR：≈0.38，Put 成交略占优，整体情绪偏防守。
+                  CPR：≈0.10，Put 成交显著占优，防守/对冲需求明显升温。
                 </td>
               </tr>
               <tr>
                 <td>下方 Put 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_down_sigma" data-label="下方 Put 墙距离">
-                    0.17
+                    11.02
                   </span>
-                  <span style="color:#9ca3af;">（K≈6600.00）</span>
+                  <span style="color:#9ca3af;">（K≈800.00）</span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-yellow">偏近 / 偏远</span>
+                    <span class="badge badge-red">极端位置</span>
                   
                 </td>
                 <td class="metric-comment">
-                  下方墙距离：最近 Put 墙约 0.17 σ（K≈6600.00），非常靠近现价，支撑与拥挤都很强，短期波动容易被放大。
+                  下方墙距离：最近 Put 墙约 11.02 σ（K≈800.00），非常远，下方几乎没有明确仓位支撑。
                 </td>
               </tr>
               <tr>
                 <td>上方 Call 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_up_sigma" data-label="上方 Call 墙距离">
-                    1.23
+                    —
                   </span>
-                  <span style="color:#9ca3af;">（K≈6625.00）</span>
+                  <span style="color:#9ca3af;">（K≈—）</span>
                 </td>
                 <td>
                   
-                    <span class="badge badge-yellow">略有限制</span>
+                    <span class="badge badge-neutral">未知</span>
                   
                 </td>
                 <td class="metric-comment">
-                  上方墙距离：最近 Call 墙约 1.23 σ（K≈6625.00），上方存在一定拥挤，对持续上行有一定牵制。
+                  上方墙距离：数据不足。
                 </td>
               </tr>
             </tbody>
@@ -882,7 +882,7 @@
         <!-- ③ 综合结构点评 -->
         <div class="section">
           <div class="section-title">③ 综合结构点评</div>
-          <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、上侧 skew 略偏高、成交情绪略偏一侧。</p>
+          <p class="comment-block">整体过滤器为 GREEN，主要风险/机会集中在：下侧 skew 很高、成交情绪极端、下方 Put 墙位置偏极端。</p>
         </div>
 
         <!-- ④/⑤ Top5 墙 -->
@@ -901,33 +901,9 @@
                 
                   
                     <tr>
-                      <td>6600.00</td>
-                      <td>27,820,363,653</td>
-                      <td>0.17</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6000.00</td>
-                      <td>20,273,248,003</td>
-                      <td>33.64</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6500.00</td>
-                      <td>18,474,424,871</td>
-                      <td>5.75</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6400.00</td>
-                      <td>8,897,304,913</td>
-                      <td>11.32</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6550.00</td>
-                      <td>8,208,185,421</td>
-                      <td>2.96</td>
+                      <td>800.00</td>
+                      <td>266,958</td>
+                      <td>11.02</td>
                     </tr>
                   
                 
@@ -946,37 +922,7 @@
               </thead>
               <tbody>
                 
-                  
-                    <tr>
-                      <td>6700.00</td>
-                      <td>22,486,162,310</td>
-                      <td>5.41</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6650.00</td>
-                      <td>15,269,667,424</td>
-                      <td>2.62</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6800.00</td>
-                      <td>11,696,964,221</td>
-                      <td>10.99</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6750.00</td>
-                      <td>11,613,611,259</td>
-                      <td>8.20</td>
-                    </tr>
-                  
-                    <tr>
-                      <td>6675.00</td>
-                      <td>5,015,712,624</td>
-                      <td>4.02</td>
-                    </tr>
-                  
+                  <tr><td colspan="3" class="muted">暂无明显 Call 墙。</td></tr>
                 
               </tbody>
             </table>
@@ -1007,9 +953,9 @@
                 <td>ATM IV</td>
                 <td>
                   <span class="metric-value" data-metric="atm_iv" data-label="ATM IV">
-                    18.7%
+                    23.6%
                   </span>
-                  <span style="color:#9ca3af;">（IV z≈-1.34）</span>
+                  <span style="color:#9ca3af;">（IV z≈1.23）</span>
                 </td>
                 <td>
                   
@@ -1017,14 +963,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  ATM IV：约 18.7%，IV z≈-1.34，隐含波动偏低，波动溢价相对便宜。
+                  ATM IV：约 23.6%，IV 略偏高（z≈1.23），市场对未来波动的定价略偏紧张。
                 </td>
               </tr>
               <tr>
                 <td>下侧 skew（Put）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_down" data-label="下侧 skew（Put）">
-                    134.7%
+                    147.2%
                   </span>
                 </td>
                 <td>
@@ -1033,14 +979,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  下侧 skew：约 134.7%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
+                  下侧 skew：约 147.2%，明显偏高，下跌保护需求强，下方尾部风险溢价较高。
                 </td>
               </tr>
               <tr>
                 <td>上侧 skew（Call）</td>
                 <td>
                   <span class="metric-value" data-metric="skew_up" data-label="上侧 skew（Call）">
-                    40.0%
+                    41.8%
                   </span>
                 </td>
                 <td>
@@ -1049,14 +995,14 @@
                   
                 </td>
                 <td class="metric-comment">
-                  上侧 skew：约 40.0%，明显偏高，乐观/追涨情绪占优，上涨尾部溢价较高。
+                  上侧 skew：约 41.8%，明显偏高，乐观/追涨情绪占优，上涨尾部溢价较高。
                 </td>
               </tr>
               <tr>
                 <td>CPR（Call/Put 成交比）</td>
                 <td>
                   <span class="metric-value" data-metric="cpr" data-label="CPR（Call/Put）">
-                    0.50
+                    0.41
                   </span>
                 </td>
                 <td>
@@ -1065,7 +1011,7 @@
                   
                 </td>
                 <td class="metric-comment">
-                  CPR：≈0.50，Call/Put 成交大致均衡，整体情绪中性。
+                  CPR：≈0.41，Call/Put 成交大致均衡，整体情绪中性。
                 </td>
               </tr>
               <tr>
@@ -1089,7 +1035,7 @@
                 <td>上方 Call 墙距离（σ）</td>
                 <td>
                   <span class="metric-value" data-metric="d_up_sigma" data-label="上方 Call 墙距离">
-                    0.41
+                    0.32
                   </span>
                   <span style="color:#9ca3af;">（K≈660.00）</span>
                 </td>
@@ -1099,7 +1045,7 @@
                   
                 </td>
                 <td class="metric-comment">
-                  上方墙距离：最近 Call 墙约 0.41 σ（K≈660.00），非常靠近现价，上涨空间容易受到期权仓位约束。
+                  上方墙距离：最近 Call 墙约 0.32 σ（K≈660.00），非常靠近现价，上涨空间容易受到期权仓位约束。
                 </td>
               </tr>
             </tbody>
@@ -1133,32 +1079,32 @@
                   
                     <tr>
                       <td>650.00</td>
-                      <td>3,300,635,252</td>
-                      <td>3.82</td>
+                      <td>3,520,811,827</td>
+                      <td>3.02</td>
                     </tr>
                   
                     <tr>
                       <td>645.00</td>
-                      <td>2,302,294,567</td>
-                      <td>5.94</td>
+                      <td>2,506,979,414</td>
+                      <td>4.70</td>
                     </tr>
                   
                     <tr>
                       <td>655.00</td>
-                      <td>2,084,261,681</td>
-                      <td>1.71</td>
+                      <td>2,200,528,370</td>
+                      <td>1.35</td>
                     </tr>
                   
                     <tr>
                       <td>640.00</td>
-                      <td>1,743,961,582</td>
-                      <td>8.06</td>
+                      <td>1,985,161,823</td>
+                      <td>6.37</td>
                     </tr>
                   
                     <tr>
-                      <td>630.00</td>
-                      <td>1,487,602,539</td>
-                      <td>12.29</td>
+                      <td>555.00</td>
+                      <td>1,672,435,575</td>
+                      <td>34.85</td>
                     </tr>
                   
                 
@@ -1180,32 +1126,32 @@
                   
                     <tr>
                       <td>660.00</td>
-                      <td>1,636,516,315</td>
-                      <td>0.41</td>
+                      <td>1,716,812,927</td>
+                      <td>0.32</td>
                     </tr>
                   
                     <tr>
                       <td>670.00</td>
-                      <td>1,483,476,154</td>
-                      <td>4.64</td>
+                      <td>1,677,208,945</td>
+                      <td>3.67</td>
                     </tr>
                   
                     <tr>
                       <td>680.00</td>
-                      <td>1,050,371,467</td>
-                      <td>8.88</td>
+                      <td>1,197,787,793</td>
+                      <td>7.02</td>
                     </tr>
                   
                     <tr>
                       <td>665.00</td>
-                      <td>1,040,383,543</td>
-                      <td>2.53</td>
+                      <td>1,145,361,865</td>
+                      <td>2.00</td>
                     </tr>
                   
                     <tr>
                       <td>675.00</td>
-                      <td>656,365,108</td>
-                      <td>6.76</td>
+                      <td>812,510,149</td>
+                      <td>5.35</td>
                     </tr>
                   
                 
@@ -1248,7 +1194,7 @@
   </div>
 
   <script>
-    const metricsHist = {"NDX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.3061869385051727, 0.2959979839992523, 0.1867547298240661], "skew_up": [-0.2613346073097741, -0.2245025949631852, 0.1867246220002653], "skew_down": [0.4477089620228691, 0.4259817611063631, 0.99890642808895], "cpr": [0.2818627450980392, 0.818070818070818, 0.7383059418457648], "d_up_sigma": [0.3597239290650594, 1.2441793870265072, 2.999775733185791], "d_down_sigma": [0.245012909920068, 0.2510119147462743, 2.7595057104587455], "iv_zscore": [0.7992486146761986, 0.6107722677519168, -1.4100208824281144]}, "QQQ": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.2919306037139891, 0.3057320404052733, 0.239967317199707], "skew_up": [-0.1053147030049924, -0.1135647434909204, 0.1638705163347069], "skew_down": [0.4617873060936767, 0.4525574522809045, 0.6563227179239551], "cpr": [0.4953678253839935, 0.4205167821774894, 0.4323192165202609], "d_up_sigma": [0.0301074001178996, 0.0840902003325721, 1.7344405544936674], "d_down_sigma": [0.0208416710450019, 0.1707153928334832, 0.0257799853619616], "iv_zscore": [0.4492533651041428, 0.9366779977351286, -1.385931362839269]}, "SPX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.1753825952148437, 0.1974949025726318, 0.1651465932464599], "skew_up": [0.0984670856604896, 0.0051703226887008, 0.2128155780422101], "skew_down": [1.1966954215905286, 1.1602419875525989, 1.5761513714203492], "cpr": [0.3930636751461526, 0.386924399807388, 0.3831378273377325], "d_up_sigma": [0.1271140144551959, 0.2094202450815856, 1.2278540804115132], "d_down_sigma": [0.0966905777080101, 0.0258730739479773, 0.1668155645673996], "iv_zscore": [-0.2932516744816516, 1.3447504516112514, -1.0514987771295996]}, "SPY": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.212074529724121, 0.2239610075378417, 0.1868977795410156], "skew_up": [0.0555929078237342, 0.0444046333855873, 0.3998954719190525], "skew_down": [1.0449163568567714, 0.9824806649911132, 1.3467152016311992], "cpr": [0.520769305728378, 0.4874320115781779, 0.4982835617169252], "d_up_sigma": [0.1067792184084137, 0.1467238614427103, 0.4106237792058581], "d_down_sigma": [0.1818170723212878, 0.1654740276322722, 0.0127124905216009], "iv_zscore": [0.2867027404684276, 1.055961413803348, -1.3426641542717703]}};
+    const metricsHist = {"NDX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.3061869385051727, 0.2959979839992523, 0.3234549466705322], "skew_up": [-0.2613346073097741, -0.2245025949631852, -0.1614684520490809], "skew_down": [0.4477089620228691, 0.4259817611063631, 0.4662905724144143], "cpr": [0.2818627450980392, 0.818070818070818, 0.5942173479561316], "d_up_sigma": [0.3597239290650594, 1.2441793870265072, 2.424792810531212], "d_down_sigma": [0.245012909920068, 0.2510119147462743, 2.2305766172173276], "iv_zscore": [-0.2082179348588309, -1.107288559686415, 1.315506494545241]}, "QQQ": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.2919306037139891, 0.3057320404052733, 0.3195563650512695], "skew_up": [-0.1053147030049924, -0.1135647434909204, 0.1614626197497538], "skew_down": [0.4617873060936767, 0.4525574522809045, 0.5848499969190438], "cpr": [0.4953678253839935, 0.4205167821774894, 0.4353304995948115], "d_up_sigma": [0.0301074001178996, 0.0840902003325721, 1.8234425256790536], "d_down_sigma": [0.0208416710450019, 0.1707153928334832, 0.0271028727381824], "iv_zscore": [-1.224406497439086, -0.0006764676781457, 1.225082965117232]}, "SPX": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.1753825952148437, 0.1974949025726318, 1.0398722017860416], "skew_up": [0.0984670856604896, 0.0051703226887008, null], "skew_down": [1.1966954215905286, 1.1602419875525989, 0.600261154193387], "cpr": [0.3930636751461526, 0.386924399807388, 0.0985691573926868], "d_up_sigma": [0.1271140144551959, 0.2094202450815856, null], "d_down_sigma": [0.0966905777080101, 0.0258730739479773, 11.017068486847377], "iv_zscore": [-0.7344034367882387, -0.6794542394187704, 1.4138576762070092]}, "SPY": {"dates": ["2025-11-19", "2025-11-20", "2025-11-21"], "atm_iv": [0.212074529724121, 0.2239610075378417, 0.2362014857177733], "skew_up": [0.0555929078237342, 0.0444046333855873, 0.4179541907422631], "skew_down": [1.0449163568567714, 0.9824806649911132, 1.4717534740611893], "cpr": [0.520769305728378, 0.4874320115781779, 0.4142777897945336], "d_up_sigma": [0.1067792184084137, 0.1467238614427103, 0.324911895990417], "d_down_sigma": [0.1818170723212878, 0.1654740276322722, 0.0100589386375085], "iv_zscore": [-1.2187111624468845, -0.0119795351956497, 1.2306906976425314]}};
     const defaultSymbol = "QQQ";
 
     function showPanel(sym) {
