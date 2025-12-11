@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Breadth Overview - SP500 (2025-12-10)</title>
+  <title>Breadth Overview - SP500 (2025-12-11)</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -184,7 +184,7 @@
     <div>
       <h1 style="margin-bottom: 0.2rem;">
         Breadth Overview - <span id="index-title">SP500</span>
-        <span class="index-tag" id="index-date">2025-12-10</span>
+        <span class="index-tag" id="index-date">2025-12-11</span>
       </h1>
       <div style="margin-top: 0.2rem;">
         <a href="index.html" class="back-link">&larr; 返回首页</a>
@@ -209,18 +209,14 @@
   <div class="top-row">
     <div class="headline-panel">
       <h2>每日点评</h2>
-      <p id="headline-text">SP500 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。</p>
+      <p id="headline-text">SP500 当前宽度信号大致中性，多空力量随节奏在不同区间之间切换。</p>
     </div>
 
     <div class="signals-panel">
       <h2>条件评论</h2>
       <ul id="bullet-list">
         
-          <li>更多个股正在向高位聚集，宽度在向上涨方向扩张。</li>
-        
-          <li>低位个股在增多，短期结构性风险有所抬头。</li>
-        
-          <li>多头结构在时间和空间上都在得到确认，局势逐步明朗。</li>
+          <li>尚未形成特别突出的多空结构变化。</li>
         
       </ul>
     </div>
@@ -253,7 +249,7 @@
         
           <li class="metric-item">
             <div class="metric-header">
-              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
               <span class="metric-name">距 52 周高点 5% 内</span>
             </div>
             <div class="metric-desc">距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。</div>
@@ -269,7 +265,7 @@
         
           <li class="metric-item">
             <div class="metric-header">
-              <span class="dot dot-green"></span>
+              <span class="dot dot-yellow"></span>
               <span class="metric-name">距 52 周高点 20% 内</span>
             </div>
             <div class="metric-desc">距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。</div>
@@ -303,7 +299,7 @@
   </div>
 
   <script>
-    const INDEX_DATA = {"sp500": {"code": "sp500", "name": "SP500", "date": "2025-12-10", "headline": "SP500 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。", "bullets": ["更多个股正在向高位聚集，宽度在向上涨方向扩张。", "低位个股在增多，短期结构性风险有所抬头。", "多头结构在时间和空间上都在得到确认，局势逐步明朗。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "yellow", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "yellow", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "red", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "green", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "sp500_breadth_chart.html"}, "ndx100": {"code": "ndx100", "name": "NDX100", "date": "2025-12-10", "headline": "NDX100 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。", "bullets": ["更多个股正在向高位聚集，宽度在向上涨方向扩张。", "多头结构在时间和空间上都在得到确认，局势逐步明朗。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "yellow", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "yellow", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "red", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "green", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "ndx100_breadth_chart.html"}};
+    const INDEX_DATA = {"sp500": {"code": "sp500", "name": "SP500", "date": "2025-12-11", "headline": "SP500 当前宽度信号大致中性，多空力量随节奏在不同区间之间切换。", "bullets": ["尚未形成特别突出的多空结构变化。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "yellow", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "yellow", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "yellow", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "yellow", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "sp500_breadth_chart.html"}, "ndx100": {"code": "ndx100", "name": "NDX100", "date": "2025-12-11", "headline": "NDX100 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。", "bullets": ["更多个股正在向高位聚集，宽度在向上涨方向扩张。", "多头结构在时间和空间上都在得到确认，局势逐步明朗。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "yellow", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "yellow", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "red", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "green", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "ndx100_breadth_chart.html"}};
     const DEFAULT_CODE = "sp500";
 
     function renderIndex(code) {
