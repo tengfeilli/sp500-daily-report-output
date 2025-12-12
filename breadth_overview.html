@@ -1,0 +1,359 @@
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Breadth Overview - SP500 (2025-12-11)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 1.5rem;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    h2 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+    h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .back-link {
+      font-size: 0.9rem;
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .index-tag {
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: #eef2ff;
+      color: #3341b6;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .index-select {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.9rem;
+      border-radius: 0.4rem;
+      border: 1px solid #d0d7e2;
+      background: #fff;
+    }
+
+    .top-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      margin-top: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .headline-panel {
+      flex: 2;
+      padding: 0.8rem 1rem;
+      border-radius: 0.6rem;
+      background: #f5f7fb;
+      border: 1px solid #dde3f0;
+    }
+    .headline-panel p {
+      line-height: 1.5;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .signals-panel {
+      flex: 3;
+      padding: 0.8rem 1rem;
+      border-radius: 0.6rem;
+      background: #fafafa;
+      border: 1px solid #e2e2e2;
+    }
+    .signals-panel ul {
+      margin: 0.2rem 0 0 1.1rem;
+      padding: 0;
+      line-height: 1.45;
+      font-size: 0.9rem;
+    }
+
+    .main-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
+    }
+
+    .chart-panel {
+      flex: 3;
+      min-width: 0;
+    }
+    .chart-frame {
+      width: 100%;
+      height: 750px;
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .switch-panel {
+      flex: 1;
+      min-width: 240px;
+      max-width: 320px;
+      padding: 0.8rem 1rem;
+      border-radius: 0.6rem;
+      border: 1px solid #e2e2e2;
+      background: #ffffff;
+    }
+
+    .metric-switches {
+      list-style: none;
+      margin: 0.4rem 0 0 0;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+    .metric-item {
+      margin-bottom: 0.35rem;
+    }
+    .metric-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .dot-green  { background: #1aaf5d; }
+    .dot-yellow { background: #f6c343; }
+    .dot-red    { background: #d93025; }
+
+    .metric-name {
+      font-weight: 500;
+    }
+    .metric-desc {
+      font-size: 0.78rem;
+      color: #666;
+      margin-left: 1.35rem;
+      line-height: 1.35;
+    }
+
+    .small-note {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #777;
+    }
+    
+        .disclaimer-block {
+      margin-top: 1.2rem;
+      padding: 0.9rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e4f0;
+      background: #f9fafb;
+    }
+    .disclaimer-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 0.4rem 0;
+    }
+    .disclaimer-text {
+      font-size: 22px;   /* 比正文大一倍左右 */
+      color: #4b5563;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .main-row {
+        flex-direction: column;
+      }
+      .switch-panel {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div>
+      <h1 style="margin-bottom: 0.2rem;">
+        Breadth Overview - <span id="index-title">SP500</span>
+        <span class="index-tag" id="index-date">2025-12-11</span>
+      </h1>
+      <div style="margin-top: 0.2rem;">
+        <a href="index.html" class="back-link">&larr; 返回首页</a>
+      </div>
+    </div>
+    <div>
+      <label for="index-select" style="font-size:0.85rem; margin-right:0.35rem;">指数：</label>
+      <select id="index-select" class="index-select">
+        
+          <option value="sp500" selected>
+            SP500
+          </option>
+        
+          <option value="ndx100" >
+            NDX100
+          </option>
+        
+      </select>
+    </div>
+  </div>
+
+  <div class="top-row">
+    <div class="headline-panel">
+      <h2>每日点评</h2>
+      <p id="headline-text">SP500 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。</p>
+    </div>
+
+    <div class="signals-panel">
+      <h2>条件评论</h2>
+      <ul id="bullet-list">
+        
+          <li>更多个股正在向高位聚集，宽度在向上涨方向扩张。</li>
+        
+          <li>多头结构在时间和空间上都在得到确认，局势逐步明朗。</li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-row">
+    <div class="chart-panel">
+      <iframe id="chart-frame" class="chart-frame" src="sp500_breadth_chart.html"></iframe>
+    </div>
+
+    <div class="switch-panel">
+      <h3>宽度指标 / 状态灯</h3>
+      <ul class="metric-switches" id="metric-list">
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-green"></span>
+              <span class="metric-name">短期站上 20 日线</span>
+            </div>
+            <div class="metric-desc">参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。</div>
+          </li>
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-green"></span>
+              <span class="metric-name">中长期站上 200 日线</span>
+            </div>
+            <div class="metric-desc">站上长期趋势线的股票覆盖面，反映整体趋势健康度。</div>
+          </li>
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-red"></span>
+              <span class="metric-name">距 52 周高点 5% 内</span>
+            </div>
+            <div class="metric-desc">距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。</div>
+          </li>
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-yellow"></span>
+              <span class="metric-name">距 52 周高点 10% 内</span>
+            </div>
+            <div class="metric-desc">距离 52 周高点 10% 以内的股票数量，高位扩散的范围。</div>
+          </li>
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-green"></span>
+              <span class="metric-name">距 52 周高点 20% 内</span>
+            </div>
+            <div class="metric-desc">距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。</div>
+          </li>
+        
+          <li class="metric-item">
+            <div class="metric-header">
+              <span class="dot dot-yellow"></span>
+              <span class="metric-name">距 52 周低点 5% 内</span>
+            </div>
+            <div class="metric-desc">距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。</div>
+          </li>
+        
+      </ul>
+      <p class="small-note">
+        绿灯表示当前宽度状态整体良好，黄灯表示中性观察，红灯表示需提高警惕。
+        宽度仅反映“参与度/拥挤度”，需与指数价格结构和波动环境结合判断。
+      </p>
+    </div>
+  </div>
+
+    <div class="disclaimer-block">
+    <div class="disclaimer-title">免责声明</div>
+    <p class="disclaimer-text">
+      本材料由个人研究工具自动生成，所载内容仅为对公开市场数据的客观整理与量化结果展示，
+      不构成、亦不应被视为任何形式的证券或期货投资建议、买卖要约或投资承诺。本材料未考虑任何投资者的具体投资目标、
+      财务状况及风险承受能力，相关观点和结论亦可能随市场环境变化而不再适用。期权及其他衍生品交易具有高度风险，
+      可能导致远超初始投入的损失。请在独立判断的基础上自行作出投资决策，并在必要时咨询具备相应资质的专业机构；
+      使用本材料进行的任何投资行为及其后果由投资者自行承担。
+    </p>
+  </div>
+
+  <script>
+    const INDEX_DATA = {"sp500": {"code": "sp500", "name": "SP500", "date": "2025-12-11", "headline": "SP500 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。", "bullets": ["更多个股正在向高位聚集，宽度在向上涨方向扩张。", "多头结构在时间和空间上都在得到确认，局势逐步明朗。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "green", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "green", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "red", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "green", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "sp500_breadth_chart.html"}, "ndx100": {"code": "ndx100", "name": "NDX100", "date": "2025-12-11", "headline": "NDX100 宽度整体偏多，短期和中长期结构都不弱，但仍存在一定分化。", "bullets": ["更多个股正在向高位聚集，宽度在向上涨方向扩张。", "多头结构在时间和空间上都在得到确认，局势逐步明朗。"], "metrics": [{"key": ">20D_MA", "label": "短期站上 20 日线", "color": "yellow", "desc": "参与短期上升的股票覆盖面，越高代表短期上涨扩散越广。"}, {"key": ">200D_MA", "label": "中长期站上 200 日线", "color": "yellow", "desc": "站上长期趋势线的股票覆盖面，反映整体趋势健康度。"}, {"key": "Within_5pct_High", "label": "距 52 周高点 5% 内", "color": "red", "desc": "距离 52 周高点 5% 以内的股票数量，高位最拥挤的一层。"}, {"key": "Within_10pct_High", "label": "距 52 周高点 10% 内", "color": "yellow", "desc": "距离 52 周高点 10% 以内的股票数量，高位扩散的范围。"}, {"key": "Within_20pct_High", "label": "距 52 周高点 20% 内", "color": "green", "desc": "距离 52 周高点 20% 以内的股票数量，反映中高位的整体聚集。"}, {"key": "Within_5pct_Low", "label": "距 52 周低点 5% 内", "color": "yellow", "desc": "距离 52 周低点 5% 以内的股票数量，数值越高，潜在结构性风险越大。"}], "chart_src": "ndx100_breadth_chart.html"}};
+    const DEFAULT_CODE = "sp500";
+
+    function renderIndex(code) {
+      const data = INDEX_DATA[code];
+      if (!data) return;
+
+      // 标题 + 日期
+      document.getElementById("index-title").textContent = data.name;
+      document.getElementById("index-date").textContent  = data.date;
+
+      // 每日点评
+      document.getElementById("headline-text").textContent = data.headline || "";
+
+      // 条件评论
+      const bl = document.getElementById("bullet-list");
+      bl.innerHTML = "";
+      (data.bullets || []).forEach(text => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        bl.appendChild(li);
+      });
+
+      // 状态灯
+      const ml = document.getElementById("metric-list");
+      ml.innerHTML = "";
+      (data.metrics || []).forEach(m => {
+        const li = document.createElement("li");
+        li.className = "metric-item";
+        li.innerHTML = `
+          <div class="metric-header">
+            <span class="dot dot-${m.color}"></span>
+            <span class="metric-name">${m.label}</span>
+          </div>
+          <div class="metric-desc">${m.desc}</div>
+        `;
+        ml.appendChild(li);
+      });
+
+      // 图表 iframe
+      const frame = document.getElementById("chart-frame");
+      frame.src = data.chart_src;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const select = document.getElementById("index-select");
+      select.addEventListener("change", function () {
+        renderIndex(this.value);
+      });
+
+      // 初始渲染
+      renderIndex(DEFAULT_CODE);
+    });
+  </script>
+</body>
+</html>
