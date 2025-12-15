@@ -1,0 +1,839 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>Options Wall V2 - 2025-12-12</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      margin: 16px;
+      background-color: #0f172a;
+      color: #e5e7eb;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 4px 0;
+    }
+    .meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .toolbar label, .toolbar span {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-right: 4px;
+    }
+    select, button.dte-tab, button.side-tab {
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #4b5563;
+      background-color: #020617;
+      color: #e5e7eb;
+    }
+    button.dte-tab, button.side-tab {
+      cursor: pointer;
+      border: 1px solid #374151;
+      background-color: #020617;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+    button.dte-tab.active, button.side-tab.active {
+      background-color: #1d4ed8;
+      border-color: #60a5fa;
+      color: #f9fafb;
+    }
+    .panel-title {
+      font-size: 14px;
+      margin: 12px 0 4px 0;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .panel-subtitle {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .chart {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      margin-bottom: 4px;
+      background-color: #020617;
+    }
+    .interpret {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    .disclaimer-block {
+      margin-top: 18px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background-color: #020617;
+      border: 1px solid #1f2937;
+    }
+    .disclaimer-title {
+      font-size: 15px;
+      margin: 0 0 6px 0;
+      font-weight: 600;
+    }
+    .disclaimer-text {
+      font-size: 22px;  /* 大一倍 */
+      color: #9ca3af;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Options Wall V2</h1>
+  <div style="margin-bottom: 4px;">
+    <a href="index.html">&larr; 返回首页</a>
+  </div>
+  <div class="meta">
+    交易日：2025-12-12 · Δ名义 = |Δ| × OI × 乘数 × 标的价 · 历史窗口：最近 60 天
+  </div>
+
+  <!-- 顶部：标的 + DTE 桶 -->
+  <div class="toolbar">
+    <div>
+      <label for="symbol-select">标的：</label>
+      <select id="symbol-select"></select>
+    </div>
+    <div id="dte-tabs"></div>
+  </div>
+
+  <!-- 第一层：DTE 横截面（只用来选价位） -->
+  <div class="panel-title">
+    <div>① DTE 横截面墙（过滤后的 Top10 行权价）</div>
+    <div class="panel-subtitle" id="main-subtitle"></div>
+  </div>
+  <div id="main-chart" class="chart"></div>
+  <div id="main-interpret" class="interpret"></div>
+
+  <!-- 第二层：Call / Put 切换（明确两个按钮） -->
+  <div class="toolbar" style="margin-top:4px;margin-bottom:4px;">
+    <div id="side-tabs" style="display:flex;align-items:center;gap:6px;">
+      <span>第二层侧别（点击切换）：</span>
+      <button id="side-call-btn" type="button" class="side-tab active" data-side="C">Call</button>
+      <button id="side-put-btn" type="button" class="side-tab" data-side="P">Put</button>
+    </div>
+  </div>
+
+  <!-- 第二层：到期日分布 -->
+  <div class="panel-title">
+    <div>② 到期日分布（先选价位，再选 Call / Put）</div>
+    <div class="panel-subtitle" id="expiry-subtitle"></div>
+  </div>
+  <div id="expiry-chart" class="chart"></div>
+  <div id="expiry-interpret" class="interpret"></div>
+
+  <!-- 第三层：历史 OI / Volume -->
+  <div class="panel-title">
+    <div>③ 墙的历史 OI / 成交量轨迹（再点某个到期日柱子）</div>
+    <div class="panel-subtitle" id="history-subtitle"></div>
+  </div>
+  <div id="history-chart" class="chart"></div>
+  <div id="history-interpret" class="interpret"></div>
+
+    <div class="disclaimer-block">
+    <div class="disclaimer-title">免责声明</div>
+    <p class="disclaimer-text">
+      本材料由个人研究工具自动生成，所载内容仅为对公开市场数据的客观整理与量化结果展示，
+      不构成、亦不应被视为任何形式的证券或期货投资建议、买卖要约或投资承诺。本材料未考虑任何投资者的具体投资目标、
+      财务状况及风险承受能力，相关观点和结论亦可能随市场环境变化而不再适用。期权及其他衍生品交易具有高度风险，
+      可能导致远超初始投入的损失。请在独立判断的基础上自行作出投资决策，并在必要时咨询具备相应资质的专业机构；
+      使用本材料进行的任何投资行为及其后果由投资者自行承担。
+    </p>
+  </div>
+
+    <script>
+    (function () {
+      async function initAll() {
+        try {
+          // 1）从同目录加载 JSON 数据
+          const [snapshotResp, historyResp] = await Promise.all([
+            fetch("options_wall_v2_data.json"),
+            fetch("options_wall_v2_history.json"),
+          ]);
+
+          if (!snapshotResp.ok) {
+            throw new Error("加载 options_wall_v2_data.json 失败：" + snapshotResp.status);
+          }
+          if (!historyResp.ok) {
+            throw new Error("加载 options_wall_v2_history.json 失败：" + historyResp.status);
+          }
+
+          const data = await snapshotResp.json();
+          const hist = await historyResp.json();
+
+          // 调试用：在控制台可以看到这两个对象
+          window.WALL_V2_DATA = data;
+          window.WALL_V2_HISTORY = hist;
+
+          let dteBuckets = data.dte_buckets || {};
+          const symbols = data.symbols || {};
+
+          const COLORS = {
+            call: "#22c55e",
+            callLight: "#bbf7d0",
+            put: "#ef4444",
+            putLight: "#fecaca",
+          };
+
+          const symbolKeys = Object.keys(symbols);
+
+          // 🔄 当后端没有提供任何 dte_buckets 时，自动根据有数据的第一个标的造一个「全 DTE」桶
+          if (!Object.keys(dteBuckets).length && symbolKeys.length) {
+            let recs = [];
+            // 找到第一个有 records 的标的
+            for (const key of symbolKeys) {
+              const sym = symbols[key] || {};
+              if (sym.records && sym.records.length) {
+                recs = sym.records;
+                break;
+              }
+            }
+            const dtes = recs
+              .map(r => Number(r.dte))
+              .filter(v => Number.isFinite(v));
+
+            if (dtes.length) {
+              const minDte = Math.min(...dtes);
+              const maxDte = Math.max(...dtes);
+              dteBuckets = {
+                all: {
+                  min: minDte,
+                  max: maxDte,
+                  label: `${minDte}-${maxDte}天`,
+                },
+              };
+            }
+          }
+
+          let currentSymbol = symbolKeys.includes("SPX")
+            ? "SPX"
+            : (symbolKeys.includes("SPY") ? "SPY" : (symbolKeys[0] || null));
+          let currentBucketKey = Object.keys(dteBuckets)[0] || null;
+          let currentStrike = null;
+          let currentExpiration = null;
+          let currentSideForHistory = "C";  // 默认看 Call
+
+          let lastMainStats = null;  // 用于主图解读
+
+          const symbolSelect = document.getElementById("symbol-select");
+          const dteTabsContainer = document.getElementById("dte-tabs");
+          const sideTabsContainer = document.getElementById("side-tabs");
+          const mainSubtitle = document.getElementById("main-subtitle");
+          const expirySubtitle = document.getElementById("expiry-subtitle");
+          const historySubtitle = document.getElementById("history-subtitle");
+          const mainInterpret = document.getElementById("main-interpret");
+          const expiryInterpret = document.getElementById("expiry-interpret");
+          const historyInterpret = document.getElementById("history-interpret");
+
+          function normSide(val) {
+            const s = (val == null ? "" : String(val)).trim().toUpperCase();
+            if (s.startsWith("P")) return "P";
+            return "C";
+          }
+
+          // 拿当前标的 + DTE 桶内所有记录
+          function getRecordsForBucket(symbolKey, bucketKey) {
+            const sym = symbols[symbolKey];
+            if (!sym || !sym.records) return [];
+            const bucket = dteBuckets[bucketKey];
+
+            // ➜ 默认视为「全 DTE」
+            let minDte = -Infinity;
+            let maxDte = Infinity;
+
+            // 只有当 bucket 里面确实有 min / max 时才按桶过滤
+            if (bucket && typeof bucket.min === "number" && typeof bucket.max === "number") {
+              minDte = bucket.min;
+              maxDte = bucket.max;
+            }
+
+            return sym.records.filter(r => {
+              const d = Number(r.dte);
+              if (!Number.isFinite(d)) return false;
+              return d >= minDte && d <= maxDte;
+            });
+          }
+
+          // 行权价聚合 + 过滤 + Top10
+          function buildStrikeStats(records, underlying, bucket) {
+            const map = {};
+            records.forEach(r => {
+              const k = String(r.strike);
+              if (!map[k]) {
+                map[k] = {
+                  strike: r.strike,
+                  callDelta: 0,
+                  putDelta: 0,
+                  callGamma: 0,
+                  putGamma: 0
+                };
+              }
+              const side = normSide(r.side);
+              const dn = Number(r.delta_notional) || 0;
+              const gn = Number(r.gamma_notional) || 0;
+              if (side === "C") {
+                map[k].callDelta += dn;
+                map[k].callGamma += gn;
+              } else {
+                map[k].putDelta += dn;
+                map[k].putGamma += gn;
+              }
+            });
+
+            let arr = Object.values(map);
+            if (!arr.length) return [];
+
+            let maxGamma = 0;
+            arr.forEach(o => {
+              o.totalGamma = (o.callGamma || 0) + (o.putGamma || 0);
+              if (o.totalGamma > maxGamma) maxGamma = o.totalGamma;
+            });
+
+            let applyFilter = false;
+            if (bucket && typeof bucket.max === "number") {
+              applyFilter = bucket.max <= 45;
+            }
+
+            if (applyFilter && underlying && underlying > 0) {
+              const nearLow = 0.93;
+              const nearHigh = 1.07;
+              const gammaFrac = 0.25;
+              arr = arr.filter(o => {
+                const m = o.strike / underlying;
+                const inCore = (m >= nearLow && m <= nearHigh);
+                if (inCore) return true;
+                if (maxGamma <= 0) return false;
+                return o.totalGamma >= gammaFrac * maxGamma;
+              });
+            }
+
+            if (!arr.length) return [];
+
+            arr.forEach(o => {
+              o.totalDelta = (o.callDelta || 0) + (o.putDelta || 0);
+            });
+
+            // Top10
+            arr.sort((a, b) => b.totalDelta - a.totalDelta);
+            arr = arr.slice(0, 10);
+            arr.sort((a, b) => a.strike - b.strike);
+            return arr;
+          }
+
+          // 第二层：固定 strike + 侧别，按到期日聚合 Δ
+          function aggregateByExpiration(records, strike, sideFilter) {
+            const tol = 1e-6;
+            const sideKey = normSide(sideFilter);
+            const filtered = records.filter(r => {
+              if (Math.abs(Number(r.strike) - Number(strike)) > tol) return false;
+              const s = normSide(r.side);
+              return s === sideKey;
+            });
+            const map = {};
+            filtered.forEach(r => {
+              const exp = r.expiration;
+              if (!map[exp]) {
+                map[exp] = { expiration: exp, delta: 0 };
+              }
+              map[exp].delta += Number(r.delta_notional) || 0;
+            });
+            return Object.values(map);
+          }
+
+          // 第三层：历史 OI / Volume（固定 symbol + strike + side + expiration）
+          function getHistorySeries(symbolKey, strike, expiration, sideFilter) {
+            if (!sideFilter) return [];
+            const eps = 1e-6;
+            const sideKey = normSide(sideFilter);
+
+            let rows = hist.filter(r => {
+              if (r.symbol !== symbolKey) return false;
+              if (Math.abs(Number(r.strike) - Number(strike)) > eps) return false;
+              if (r.expiration !== expiration) return false;
+              const s = normSide(r.side);
+              return s === sideKey;
+            });
+
+            if (!rows.length) return [];
+
+            const byDate = {};
+            rows.forEach(r => {
+              const d = r.trade_date;
+              if (!byDate[d]) {
+                byDate[d] = {
+                  trade_date: d,
+                  oi: 0,
+                  volume: 0,
+                  delta_notional: 0,
+                  gamma_notional: 0
+                };
+              }
+              byDate[d].oi += Number(r.oi || 0);
+              byDate[d].volume += Number(r.volume || 0);
+              byDate[d].delta_notional += Number(r.delta_notional || 0);
+              byDate[d].gamma_notional += Number(r.gamma_notional || 0);
+            });
+
+            const arr = Object.values(byDate);
+            arr.sort((a, b) => (a.trade_date < b.trade_date ? -1 : (a.trade_date > b.trade_date ? 1 : 0)));
+            return arr;
+          }
+
+          function makeMainInterpret(strike, stat, underlying, bucket) {
+            if (!underlying || !bucket) {
+              return "选中行权价 " + strike + "，显示当前 DTE 桶内该价位的 Call / Put Δ 名义。";
+            }
+            const dteMax = bucket.max;
+            const isShort = dteMax <= 45;
+            const m = strike / underlying;
+            const d = (strike - underlying) / underlying * 100;
+            const callDelta = stat.callDelta || 0;
+            const putDelta = stat.putDelta || 0;
+            let sideHint = "Call 与 Put 持仓相对均衡";
+            if (callDelta > 1.3 * putDelta) sideHint = "上方 Call 持仓相对更集中";
+            else if (putDelta > 1.3 * callDelta) sideHint = "下方 Put 持仓相对更集中";
+
+            const distText = "行权价约为标的价的 " + m.toFixed(2) + " 倍（偏离 " + d.toFixed(1) + "%）";
+
+            if (isShort && Math.abs(d) <= 3) {
+              return "这是一堵近月、接近标的价的墙，" + distText +
+                     "。在短期内，它更多反映这一价位附近的对冲压力分布，" + sideHint + "。";
+            }
+            if (isShort && d > 3 && d < 12) {
+              return "这是一堵近月、略高于标的价的墙，" + distText +
+                     "。" + sideHint + "，可视为上方区域的一处重要持仓结构位置。";
+            }
+            if (isShort && d < -3 && d > -12) {
+              return "这是一堵近月、略低于标的价的墙，" + distText +
+                     "。" + sideHint + "，更多体现下方保护 / 对冲仓的集中区域。";
+            }
+            if (!isShort || Math.abs(d) >= 15) {
+              return "这是一堵价格相对标的较远、且到期日偏长或较远的墙，" + distText +
+                     "。这类墙通常更多反映长期资产配置或结构性对冲，对近期价格节奏的直接影响有限。";
+            }
+            return "选中这一行权价后，可以看到该价位在当前 DTE 桶中的持仓结构（" +
+                   sideHint + "），主要用于理解不同价位间的对冲压力分布。";
+          }
+
+          function makeHistoryInterpret(series) {
+            if (!series || !series.length) return "";
+            if (series.length < 3) {
+              return "历史样本较少，OI 与成交量的变化节奏还不够清晰，更适合作为结构参考。";
+            }
+            const first = Number(series[0].oi) || 0;
+            const last = Number(series[series.length - 1].oi) || 0;
+            const base = Math.max(Math.abs(first), 1e-6);
+            const change = (last - first) / base;
+
+            if (change > 0.5) {
+              return "从历史 OI 轨迹看，这堵墙相较起点有明显放大，更像是最近一段时间被持续“加厚”的墙。";
+            }
+            if (change < -0.5) {
+              return "历史 OI 轨迹显示，这堵墙相较高位已有明显回落，可能是原有仓位在逐步减仓或迁移。";
+            }
+            return "这堵墙的 OI 在观察期内整体变化相对温和，更像是一堵长期存在的“老墙”。";
+          }
+
+          // 标的选择
+          function initSymbolSelect() {
+            symbolSelect.innerHTML = "";
+            symbolKeys.forEach(k => {
+              const opt = document.createElement("option");
+              opt.value = k;
+              const name = symbols[k].display_name || k;
+              opt.textContent = k + " - " + name;
+              if (k === currentSymbol) opt.selected = true;
+              symbolSelect.appendChild(opt);
+            });
+            symbolSelect.addEventListener("change", () => {
+              currentSymbol = symbolSelect.value;
+              currentStrike = null;
+              currentExpiration = null;
+              currentSideForHistory = "C";
+              mainInterpret.textContent = "";
+              expiryInterpret.textContent = "";
+              historyInterpret.textContent = "";
+              renderMainChart();
+              clearExpiryChart();
+              clearHistoryChart();
+              updateSideTabs();
+            });
+          }
+
+          // DTE tabs
+          function initDteTabs() {
+            dteTabsContainer.innerHTML = "";
+            Object.entries(dteBuckets).forEach(([key, bucket]) => {
+              const btn = document.createElement("button");
+              btn.type = "button";
+              btn.className = "dte-tab" + (key === currentBucketKey ? " active" : "");
+              btn.textContent = bucket.label;
+              btn.dataset.key = key;
+              btn.addEventListener("click", () => {
+                currentBucketKey = key;
+                currentStrike = null;
+                currentExpiration = null;
+                mainInterpret.textContent = "";
+                expiryInterpret.textContent = "";
+                historyInterpret.textContent = "";
+                updateDteTabActive();
+                renderMainChart();
+                clearExpiryChart();
+                clearHistoryChart();
+              });
+              dteTabsContainer.appendChild(btn);
+            });
+          }
+
+          function updateDteTabActive() {
+            const buttons = dteTabsContainer.querySelectorAll("button.dte-tab");
+            buttons.forEach(btn => {
+              if (btn.dataset.key === currentBucketKey) btn.classList.add("active");
+              else btn.classList.remove("active");
+            });
+          }
+
+          // 第二层 Call/Put 切换按钮
+          function initSideTabs() {
+            const buttons = sideTabsContainer.querySelectorAll("button.side-tab");
+            buttons.forEach(btn => {
+              btn.addEventListener("click", () => {
+                currentSideForHistory = normSide(btn.dataset.side);
+                updateSideTabs();
+                renderExpiryChart();
+                clearHistoryChart();
+              });
+            });
+            updateSideTabs();
+          }
+
+          function updateSideTabs() {
+            const buttons = sideTabsContainer.querySelectorAll("button.side-tab");
+            buttons.forEach(btn => {
+              const side = normSide(btn.dataset.side);
+              if (side === normSide(currentSideForHistory)) btn.classList.add("active");
+              else btn.classList.remove("active");
+            });
+          }
+
+          function clearExpiryChart() {
+            expirySubtitle.textContent = "";
+            expiryInterpret.textContent = "";
+            const div = document.getElementById("expiry-chart");
+            if (div) Plotly.purge(div);
+          }
+
+          function clearHistoryChart() {
+            historySubtitle.textContent = "";
+            historyInterpret.textContent = "";
+            const div = document.getElementById("history-chart");
+            if (div) Plotly.purge(div);
+          }
+
+          // 第一层：DTE 横截面（只选价位）
+          function renderMainChart() {
+            const div = document.getElementById("main-chart");
+            if (!div || !currentSymbol) return;
+
+            const recs = getRecordsForBucket(currentSymbol, currentBucketKey);
+            const symObj = symbols[currentSymbol];
+            const underlying = symObj && symObj.underlying;
+            const bucket = dteBuckets[currentBucketKey];
+
+            const stats = buildStrikeStats(recs, underlying, bucket);
+            lastMainStats = stats;
+            mainInterpret.textContent = "";
+
+            if (!stats.length) {
+              Plotly.newPlot(div, [], {
+                title: "当前 DTE 桶内没有显著的期权墙（过滤后）",
+                paper_bgcolor: "#020617",
+                plot_bgcolor: "#020617",
+                font: { color: "#e5e7eb" }
+              });
+              mainSubtitle.textContent = "";
+              return;
+            }
+
+            const strikes = stats.map(o => o.strike);
+            const callVals = stats.map(o => (o.callDelta || 0) / 1e8);
+            const putVals = stats.map(o => (o.putDelta || 0) / 1e8);
+
+            const callTrace = {
+              x: strikes,
+              y: callVals,
+              type: "bar",
+              name: "Call Δ名义（亿）",
+              marker: { color: COLORS.call },
+            };
+            const putTrace = {
+              x: strikes,
+              y: putVals,
+              type: "bar",
+              name: "Put Δ名义（亿）",
+              marker: { color: COLORS.put },
+            };
+
+            const shapes = [];
+            if (underlying) {
+              shapes.push({
+                type: "line",
+                xref: "x",
+                yref: "paper",
+                x0: underlying,
+                x1: underlying,
+                y0: 0,
+                y1: 1,
+                line: {
+                  color: "rgba(59,130,246,0.9)",
+                  width: 1,
+                  dash: "dot"
+                }
+              });
+            }
+
+            const layout = {
+              barmode: "group",
+              paper_bgcolor: "#020617",
+              plot_bgcolor: "#020617",
+              font: { color: "#e5e7eb" },
+              margin: { l: 50, r: 10, t: 24, b: 40 },
+              xaxis: { title: "行权价（过滤后的 Top10 墙）", showgrid: false },
+              yaxis: { title: "Δ名义（亿）", showgrid: true, gridcolor: "#111827" },
+              showlegend: true,
+              shapes: shapes
+            };
+
+            Plotly.newPlot(div, [callTrace, putTrace], layout);
+
+            const bucketLabel = bucket ? bucket.label : "";
+            let subtitle = currentSymbol + " · " + (symObj.display_name || "") + " · " + bucketLabel;
+            if (underlying) {
+              subtitle += " · 标的价 ≈ " + underlying.toFixed(2);
+            }
+            mainSubtitle.textContent = subtitle;
+
+            // 主图点击：只选 strike，不改 side
+            div.on("plotly_click", function(ev) {
+              if (!ev || !ev.points || !ev.points.length) return;
+              const pt = ev.points[0];
+              currentStrike = pt.x;
+              currentExpiration = null;
+
+              if (lastMainStats && underlying) {
+                const match = lastMainStats.find(o => Math.abs(Number(o.strike) - Number(currentStrike)) < 1e-6);
+                if (match) {
+                  mainInterpret.textContent = makeMainInterpret(currentStrike, match, underlying, bucket);
+                } else {
+                  mainInterpret.textContent = "";
+                }
+              } else {
+                mainInterpret.textContent = "";
+              }
+
+              renderExpiryChart();
+              clearHistoryChart();
+            });
+          }
+
+          // 第二层：到期日分布（价位 + 侧别）
+          function renderExpiryChart() {
+            const div = document.getElementById("expiry-chart");
+            if (!div || currentStrike == null || !currentSymbol) return;
+
+            const recs = getRecordsForBucket(currentSymbol, currentBucketKey);
+            const side = normSide(currentSideForHistory);
+            const agg = aggregateByExpiration(recs, currentStrike, side);
+            expiryInterpret.textContent = "";
+
+            if (!agg.length) {
+              Plotly.newPlot(div, [], {
+                title: "该行权价在当前 DTE 桶内没有显著持仓（当前侧别：" + (side === "C" ? "Call" : "Put") + "）",
+                paper_bgcolor: "#020617",
+                plot_bgcolor: "#020617",
+                font: { color: "#e5e7eb" }
+              });
+              expirySubtitle.textContent = "";
+              return;
+            }
+
+            const expirations = [...new Set(agg.map(r => r.expiration))].sort();
+            const yVals = expirations.map(exp => {
+              const rows = agg.filter(r => r.expiration === exp);
+              return rows.reduce((s, r) => s + (r.delta || 0), 0) / 1e8;
+            });
+
+            const trace = {
+              x: expirations,
+              y: yVals,
+              type: "bar",
+              name: side === "C" ? "Call Δ名义（亿）" : "Put Δ名义（亿）",
+              marker: { color: side === "C" ? COLORS.call : COLORS.put }
+            };
+
+            const layout = {
+              barmode: "group",
+              paper_bgcolor: "#020617",
+              plot_bgcolor: "#020617",
+              font: { color: "#e5e7eb" },
+              margin: { l: 50, r: 10, t: 24, b: 60 },
+              xaxis: { title: "到期日", tickangle: -45, showgrid: false },
+              yaxis: { title: "Δ名义（亿）", showgrid: true, gridcolor: "#111827" },
+              showlegend: true
+            };
+
+            Plotly.newPlot(div, [trace], layout);
+
+            expirySubtitle.textContent =
+              currentSymbol + " " + (side === "C" ? "Call" : "Put") +
+              " @ 行权价 " + currentStrike + " · 各到期日 Δ名义分布";
+
+            // 点击到期日 -> 第三层
+            div.on("plotly_click", function(ev) {
+              if (!ev || !ev.points || !ev.points.length) return;
+              const pt = ev.points[0];
+              currentExpiration = pt.x;
+
+              const totalDelta = yVals.reduce((sum, v) => sum + Math.abs(v || 0), 0);
+              const idx = expirations.indexOf(currentExpiration);
+              if (totalDelta > 0 && idx >= 0) {
+                const sel = Math.abs(yVals[idx] || 0);
+                const share = sel / totalDelta;
+                if (share > 0.5) {
+                  expiryInterpret.textContent =
+                    "在当前行权价附近，这一到期日在该侧持仓中占比较高，说明这一时间窗口的对冲与仓位调整可能更为活跃。";
+                } else if (share > 0.25) {
+                  expiryInterpret.textContent =
+                    "这一到期日在该侧持仓中有一定权重，但并非唯一主导，整体结构相对分散。";
+                } else {
+                  expiryInterpret.textContent =
+                    "这一到期日在该侧持仓中占比较小，更适合作为结构背景参考。";
+                }
+              } else {
+                expiryInterpret.textContent = "";
+              }
+
+              renderHistoryChart();
+            });
+          }
+
+          // 第三层：历史 OI / Volume
+          function renderHistoryChart() {
+            const div = document.getElementById("history-chart");
+            if (!div || currentStrike == null || !currentSymbol || !currentExpiration || !currentSideForHistory) return;
+
+            const side = normSide(currentSideForHistory);
+            const series = getHistorySeries(currentSymbol, currentStrike, currentExpiration, side);
+            if (!series.length) {
+              Plotly.newPlot(div, [], {
+                title: "历史数据不足，无法绘制 OI / 成交量轨迹（当前侧别：" + (side === "C" ? "Call" : "Put") + "）",
+                paper_bgcolor: "#020617",
+                plot_bgcolor: "#020617",
+                font: { color: "#e5e7eb" }
+              });
+              historySubtitle.textContent = "";
+              historyInterpret.textContent = "";
+              return;
+            }
+
+            const x = series.map(r => r.trade_date);
+            const oiVals = series.map(r => Number(r.oi) || 0);
+            const volVals = series.map(r => Number(r.volume) || 0);
+
+            const isCall = side === "C";
+            const oiColor = isCall ? COLORS.call : COLORS.put;
+            const volColor = isCall ? COLORS.callLight : COLORS.putLight;
+
+            const oiTrace = {
+              x: x,
+              y: oiVals,
+              type: "bar",
+              name: "未平仓量 OI",
+              marker: { color: oiColor }
+            };
+            const volTrace = {
+              x: x,
+              y: volVals,
+              type: "bar",
+              name: "成交量 Volume",
+              marker: { color: volColor }
+            };
+
+            const layout = {
+              barmode: "group",
+              paper_bgcolor: "#020617",
+              plot_bgcolor: "#020617",
+              font: { color: "#e5e7eb" },
+              margin: { l: 50, r: 10, t: 24, b: 40 },
+              xaxis: { title: "交易日", showgrid: false },
+              yaxis: { title: "合约数量", showgrid: true, gridcolor: "#111827" },
+              showlegend: true
+            };
+
+            Plotly.newPlot(div, [oiTrace, volTrace], layout);
+
+            const sideLabel = side === "C" ? "Call" : "Put";
+            historySubtitle.textContent =
+              currentSymbol + " " + sideLabel + " @ " + currentStrike +
+              " · 到期日 " + currentExpiration + " · OI / 成交量历史轨迹";
+
+            historyInterpret.textContent = makeHistoryInterpret(series);
+          }
+
+          function init() {
+            if (!currentSymbol) return;
+            initSymbolSelect();
+            initDteTabs();
+            initSideTabs();
+            renderMainChart();
+          }
+
+          init();
+        } catch (e) {
+          console.error("WALL V2 加载失败：", e);
+          const errBox = document.createElement("pre");
+          errBox.style.whiteSpace = "pre-wrap";
+          errBox.style.fontSize = "12px";
+          errBox.style.background = "#fee";
+          errBox.style.border = "1px solid #f00";
+          errBox.style.padding = "8px";
+          errBox.textContent = "WALL V2 加载失败：" + e.message +
+            "。如果是本地 file:// 打开，请改用 http 方式（例如 python3 -m http.server）。";
+          document.body.prepend(errBox);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", initAll);
+    })();
+  </script>
+
+  
+</body>
+</html>
